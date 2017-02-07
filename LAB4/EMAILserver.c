@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <dirent.h>
 
 #define BUFSIZE 1024
 #define ARGSIZE 40
@@ -76,33 +77,21 @@ void server_interface(/*parameters*/){
 void LSTU(/*parameters*/){
   /*function defination*/
   printf("LSTU is called.\n");
-  FILE *fp;
-  fp = fopen("users_list", "r");
-  if (fp == NULL)
-    {
-      perror("Error file opening");
-      strcpy(buf3,"SORRY!");
-      /*n = write(childfd, str, strlen(str));
-      if(n < 0)
-        error("ERROR writing to socket");*/
+  DIR *d;
+  struct dirent *dir;
+  d = opendir("users");
+  if (d)
+    {   bzero(buf3,BUFSIZE);
+        while ((dir = readdir(d)) != NULL)
+        {  if ( !(!(strcmp(dir->d_name, ".")) || !(strcmp(dir->d_name,".."))))
+            {
+              /*printf("%s\n", dir->d_name);
+              printf("filename length %d \n", strlen(dir->d_name));*/
+              strcat(buf3, dir->d_name);
+              strcat(buf3, " ");}
+        }
+        closedir(d);
     }
-    else /*if (fgets(str, N, fp) != NULL)*/
-    { char ch[50];
-      char c;
-      int i;
-      bzero(ch, 50);
-      bzero(buf3,BUFSIZE);
-      
-      while( fgets(ch, 50, fp) != NULL)
-      {
-        strcat(buf3,ch);
-        printf("length buf3 : %d\n", strlen(buf3));
-        if (buf3[strlen(buf3)-1] == '\n')
-          buf3[strlen(buf3)-1] = ' ';
-        bzero(ch, 50);
-      }
-    fclose(fp);
-  }
   printf("\tbuf3 : %s\n", buf3);
 }
 
@@ -255,8 +244,10 @@ int main(int argc, char **argv) {
         bzero(buf2, BUFSIZE);
         strcpy(buf2,buf);
         server_interface();
-        bzero(buf, BUFSIZE);
-        strcpy(buf,buf3);
+        if(strlen(buf3) > 0) {
+          bzero(buf, BUFSIZE);
+          strcpy(buf,buf3);
+        }
       }
       printf("server received %d bytes: %s\n", n, buf);
       /* 
@@ -265,6 +256,7 @@ int main(int argc, char **argv) {
       n = write(childfd, buf, strlen(buf));
       if (n < 0) 
         error("ERROR writing to socket");
+      bzero(buf3, BUFSIZE);
     }
     close(childfd);
   }

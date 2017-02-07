@@ -100,7 +100,7 @@ void input_interface(/*arguments*/){
             case 2  :   Adduser();break;
             case 3  :   SetUser();break;
             case 4  :   Quit();break;
-            default :   break;
+            default :   printf("Command not found: %s",orig_str);break;
         }
         if (fnlist == 4)
             break;
@@ -211,7 +211,7 @@ void SetUser(/*arguments*/){
                 case 6  :   Send();break;
                 case 7  :   Delete();break;
                 case 8  :   Done();break;
-                default :   break;
+                default :   printf("Command not found: %s",orig_str2);break;
             }
             /*n = write(sockfd, buf, strlen(buf));
             if (n < 0) 
