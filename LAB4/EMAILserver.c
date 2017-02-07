@@ -10,7 +10,7 @@
 
 #define BUFSIZE 1024
 #define ARGSIZE 40
-char buf2[BUFSIZE];
+char buf2[BUFSIZE], buf3[BUFSIZE];
 char arg1[ARGSIZE], arg2[ARGSIZE];
 int fnlist;
 /*all functions*/
@@ -76,6 +76,34 @@ void server_interface(/*parameters*/){
 void LSTU(/*parameters*/){
   /*function defination*/
   printf("LSTU is called.\n");
+  FILE *fp;
+  fp = fopen("users_list", "r");
+  if (fp == NULL)
+    {
+      perror("Error file opening");
+      strcpy(buf3,"SORRY!");
+      /*n = write(childfd, str, strlen(str));
+      if(n < 0)
+        error("ERROR writing to socket");*/
+    }
+    else /*if (fgets(str, N, fp) != NULL)*/
+    { char ch[50];
+      char c;
+      int i;
+      bzero(ch, 50);
+      bzero(buf3,BUFSIZE);
+      
+      while( fgets(ch, 50, fp) != NULL)
+      {
+        strcat(buf3,ch);
+        printf("length buf3 : %d\n", strlen(buf3));
+        if (buf3[strlen(buf3)-1] == '\n')
+          buf3[strlen(buf3)-1] = ' ';
+        bzero(ch, 50);
+      }
+    fclose(fp);
+  }
+  printf("\tbuf3 : %s\n", buf3);
 }
 
 void ADDU(/*parameters*/){
@@ -216,7 +244,6 @@ int main(int argc, char **argv) {
     char rep='y';
     while(rep=='y'){
       bzero(buf, BUFSIZE);
-      bzero(buf2, BUFSIZE);
       n = read(childfd, buf, BUFSIZE);
       if (n < 0) 
         error("ERROR reading from socket");
@@ -224,8 +251,13 @@ int main(int argc, char **argv) {
         rep='n';
       }
       else 
+      {
+        bzero(buf2, BUFSIZE);
         strcpy(buf2,buf);
-      server_interface();
+        server_interface();
+        bzero(buf, BUFSIZE);
+        strcpy(buf,buf3);
+      }
       printf("server received %d bytes: %s\n", n, buf);
       /* 
        * write: echo the input string back to the client 
