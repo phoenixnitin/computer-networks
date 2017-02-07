@@ -126,7 +126,8 @@ void Listusers(/*arguments*/){
 
 void Adduser(/*arguments*/){
     /*defination*/
-    if (strlen(arg2) <= 0);
+    if (strlen(arg2) <= 0)
+        printf("Invalid username.\n");
     else
     {
         printf("adduser is called. id : %s\n", arg2);

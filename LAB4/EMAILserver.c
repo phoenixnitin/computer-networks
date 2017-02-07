@@ -98,6 +98,32 @@ void LSTU(/*parameters*/){
 void ADDU(/*parameters*/){
   /*function defination*/
   printf("ADDU is called.\n");
+  printf("arg2 : %s , length : %d\n", arg2, strlen(arg2));
+  FILE *fp, *fp2;
+  char fname[50];
+  bzero(fname, 50);
+  strcpy(fname, "users/");
+  strcat(fname, arg2);
+  printf("fname : %s\n", fname);
+  fp = fopen(fname, "r");
+  if (fp == NULL)
+  { 
+    fp2 = fopen(fname, "wr");
+    if (fp2 == NULL)
+      printf("Error file creating\n");
+    else
+    { 
+      bzero(buf3, BUFSIZE);
+      strcpy(buf3, "User has been added successfully.");
+      printf("%s\n", buf3);
+    }
+  }
+  else {
+    printf("User already exist.\n");
+    bzero(buf3, BUFSIZE);
+    strcpy(buf3, "User already exist.");
+    fclose(fp);
+  }
 }
 
 void USER(/*parameters*/){
