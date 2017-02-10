@@ -11,20 +11,26 @@
 
 #define BUFSIZE 1024
 #define ARGSIZE 40
-char buf2[BUFSIZE], buf3[BUFSIZE];
-char arg1[ARGSIZE], arg2[ARGSIZE];
-int fnlist;
+#define EMAILNO 50
+char buf2[BUFSIZE], buf3[BUFSIZE], email[EMAILNO][BUFSIZE];
+char arg1[ARGSIZE], arg2[ARGSIZE], username[ARGSIZE];
+int fnlist, emailnumber, totalemail;
+int count=0;
+int readcount=0;
 /*all functions*/
 void server_interface(/*parameters*/){
   /*function defination*/
   bzero(arg1,ARGSIZE);
-  bzero(arg2,ARGSIZE);
   printf("server interface, read string : %s\n", buf2);
   char *cmd = strtok(buf2," ");
   int i = 0;
   while (cmd != NULL){
       if(i == 0)
-          strcpy(arg1,cmd);
+      {   
+        strcpy(arg1,cmd);
+        if(!strcmp(arg1,"ADDU") || !strcmp(arg1,"ADDU"))
+        { bzero(arg2,BUFSIZE); printf("arg2 is made zero\n"); }
+      }
       else if(i == 1)
           strcpy(arg2,cmd);
       cmd = strtok(NULL, " ");
@@ -36,16 +42,16 @@ void server_interface(/*parameters*/){
   if(!strcmp(arg1,"LSTU"))
       fnlist = 1;
   else if(!strcmp(arg1,"ADDU"))
-      {   if(arg2 == NULL);
-              /*continue;*/
-          else
+      {   if(arg2 != NULL);
               fnlist = 2;
       }
   else if(!strcmp(arg1,"USER"))
-      {   if(arg2 == NULL);
-              /*continue;*/
-          else
+      {   if(arg2 != NULL);
+          {
               fnlist = 3;
+              bzero(username,ARGSIZE);
+              strcpy(username,arg2);
+          }
       }
   else if(!strcmp(arg1,"READM"))
       fnlist = 4;
@@ -63,7 +69,7 @@ void server_interface(/*parameters*/){
   switch(fnlist){
       case 1  :   LSTU();break;
       case 2  :   ADDU();break;
-      case 3  :   USER();break;
+      case 3  :   USER();bzero(arg2,ARGSIZE);break;
       case 4  :   READM();break;
       case 5  :   DELM();break;
       case 6  :   SEND();break;
@@ -124,21 +130,156 @@ void ADDU(/*parameters*/){
     strcpy(buf3, "User already exist.");
     fclose(fp);
   }
+  bzero(arg2,ARGSIZE);
 }
 
 void USER(/*parameters*/){
   /*function defination*/
   printf("USER is called.\n");
+  FILE *fp, *fp2;
+  char fname[50];
+  bzero(fname, 50);
+  strcpy(fname, "users/");
+  strcat(fname, arg2);
+  printf("fname : %s\n", fname);
+  fp = fopen(fname, "r");
+  if (fp == NULL)
+  { 
+    bzero(buf3, BUFSIZE);
+    strcpy(buf3, "User does not exist.");
+    printf("%s\n", buf3);
+  }
+  else {
+    /*printf("User already exist.\n");*/
+    
+    int k=0;
+    for(k = 0;k<EMAILNO;k++)
+      bzero(email[k], BUFSIZE);
+    char buf5[BUFSIZE],buf6[BUFSIZE];
+    bzero(buf5, BUFSIZE);
+    count = 0;
+    k = 0;
+    char rep = 'y';
+        bzero(buf6, BUFSIZE);
+        while (fgets(buf5, BUFSIZE, fp) != NULL)
+        {
+            int i=0;
+            strcat(email[count],buf5);
+            while(buf5[i] != NULL)
+            {   
+                if (buf5[i] == '#')
+                {   if (buf5[i+1] == '#')
+                        if (buf5[i+2] == '#')
+                        {   
+                          count++;                          
+                        }
+                }
+                i++;
+            }
+            /*if (buf5[i] == NULL)
+              rep = 'n';*/
+            bzero(buf5, BUFSIZE);
+        }
+        /*if (strlen(buf6) > 0)
+            {
+              strcpy(email[k],buf6);
+              k++;
+            }*/
+    bzero(buf3, BUFSIZE);
+    sprintf(buf3, "ACK : User exists and has %d messages.", count);
+    printf("buf3 : %s\n", buf3);
+    for (k=0;k<count;k++)
+      printf("%s\n", email[k]);
+    /*if(write(childfd, buf3, strlen(buf3)) < 0)
+        error("ERROR writing to socket");*/
+    fclose(fp);
+  }
 }
 
 void READM(/*parameters*/){
   /*function defination*/
   printf("READM is called.\n");
+  bzero(buf3,BUFSIZE);
+  /*for( i = 0; i<count;i++) */
+    printf("email[%d] : %s\n",readcount,email[readcount]);
+    strcat(buf3,email[readcount]);
+    if(strlen(buf3) > 0)
+      readcount++;
+    else
+      strcpy(buf3, "INVALID : No More Mail");
 }
 
 void DELM(/*parameters*/){
   /*function defination*/
   printf("DELM is called.\n");
+  emailnumber = atoi(arg2);
+  printf("emailnumber: %d\n", strlen(arg2));
+  int i;
+  if(count > 0)
+  {
+    i = readcount;
+    /*if( i == 0 )
+    {
+      while(strlen(email[i]) > 0)
+      {
+        bzero(email[i], BUFSIZE);
+        if(strlen(email[i+1]) > 0)
+          strcpy(email[i],email[i+1]);
+        i++;
+      }
+    }  
+    else*/
+    {
+      while (strlen(email[i]) > 0 && i < count)
+      { 
+        printf("email [%d-1] : %s , email [%d] : %s\n",i,email[i-1],i,email[i]);
+        bzero(email[i-1], BUFSIZE);
+        strcpy(email[i-1], email[i]);
+        i++;
+      }
+      bzero(email[i-1],BUFSIZE);
+      if(readcount > 0)
+        readcount--;
+    }
+    FILE *fp;
+    char fname[50];
+    bzero(fname, 50);
+    strcpy(fname, "users/");
+    printf("arg2 : %s\n", username);
+    strcat(fname, username);
+    printf("fname : %s\n", fname);
+    fp = fopen(fname, "w");
+    if (fp == NULL)
+    { 
+      bzero(buf3, BUFSIZE);
+      strcpy(buf3, "Cannot Delete.");
+      printf("%s\n", buf3);
+    }
+    else 
+    {
+      fputs(email[0],fp);
+      fclose(fp);
+    }
+    fp = fopen(fname, "a");
+    if (fp == NULL)
+    { 
+      bzero(buf3, BUFSIZE);
+      strcpy(buf3, "Error occurred while deleting.");
+      printf("%s\n", buf3);
+    }
+    else 
+    {
+      i = 1;
+      while(strlen(email[i]) > 0)
+      {
+        fputs(email[i],fp);
+        i++;
+      }
+      fclose(fp);
+    }
+    strcpy(buf3, "successfully deleted.");
+    printf("buf3 : %s\n", buf3);
+  }
 }
 
 void SEND(/*parameters*/){
@@ -149,6 +290,7 @@ void SEND(/*parameters*/){
 void DONEU(/*parameters*/){
   /*function defination*/
   printf("DONEU is called.\n");
+  readcount = 0;
 }
 
 void QUIT(/*parameters*/){
@@ -256,6 +398,7 @@ int main(int argc, char **argv) {
     /* 
      * read: read input string from the client
      */
+    readcount = 0;
     char rep='y';
     while(rep=='y'){
       bzero(buf, BUFSIZE);

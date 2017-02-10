@@ -152,79 +152,93 @@ void SetUser(/*arguments*/){
     if (strlen(arg2) <= 0);
     else
     {   printf("setuser is called. id : %s\n", arg2);
+        bzero(buf,BUFSIZE);
+        strcpy(buf, "USER ");
+        strcat(buf, arg2);
+        n = write(sockfd, buf, strlen(buf));
+        if (n < 0) 
+          error("ERROR writing to socket");
 
-        while(1){
-               
-            printf("Sub-Prompt-%s > ", arg2);
-            bzero(orig_str2,BUFSIZE);
-            fgets(orig_str2, BUFSIZE, stdin);
-            bzero(buf3,BUFSIZE);
-            strcpy(buf3, orig_str2);
-            char *cmd = strtok(buf3," ");
-            int i=0;
-            /*printf("Received:");*/
-            while (cmd != NULL){
-                /*printf(" %s", cmd );*/
-                if(i == 0)
-                    strcpy(arg3,cmd);
-                else if(i == 1)
-                    strcpy(arg4,cmd);
-                cmd = strtok(NULL, " ");
-                i++;
-            }
-            /*printf("arg3 : %s,  arg4 : %s \n",arg3,arg4);
-            printf("strlen of arg4 : %d \n", arg4!=NULL?strlen(arg4):0);*/
-            if (arg3!=NULL){
-                if (arg3[strlen(arg3)-1] == '\n')
-                    arg3[strlen(arg3)-1] = NULL;
-            }
-            if (arg4!=NULL){
-                if (arg4[strlen(arg4)-1] == '\n')
-                    arg4[strlen(arg4)-1] = NULL;
-            }
-
-            i = 0;
-            int operatorlen = strlen(arg3);
-            /*convert operator string to lowercase, so that operater is no longer case sensitive*/
-            while (i< operatorlen){
-                if(arg3[i] >= 65 && arg3[i]<=90)
-                    arg3[i] = arg3[i] + 32;
-                i++;
-            }
-
-            if(!strcmp(arg3,"read"))
-                fnlist = 5;
-            else if(!strcmp(arg3,"send"))
-                {   if(arg4 == NULL)
-                        continue;
-                    else
-                        fnlist = 6;
+        bzero(buf, BUFSIZE);
+        n = read(sockfd, buf, BUFSIZE);
+        if (n < 0) 
+          error("ERROR reading from socket");
+        printf("Echo from server: %s\n", buf);
+        if (!strcmp(strtok(buf," "),"ACK"))
+        {
+            while(1){
+                   
+                printf("Sub-Prompt-%s > ", arg2);
+                bzero(orig_str2,BUFSIZE);
+                fgets(orig_str2, BUFSIZE, stdin);
+                bzero(buf3,BUFSIZE);
+                strcpy(buf3, orig_str2);
+                char *cmd = strtok(buf3," ");
+                int i=0;
+                /*printf("Received:");*/
+                while (cmd != NULL){
+                    /*printf(" %s", cmd );*/
+                    if(i == 0)
+                        strcpy(arg3,cmd);
+                    else if(i == 1)
+                        strcpy(arg4,cmd);
+                    cmd = strtok(NULL, " ");
+                    i++;
                 }
-            else if(!strcmp(arg3,"delete"))
-                fnlist = 7;
-            else if(!strcmp(arg3,"done"))
-                fnlist = 8;
-            else fnlist = 0;
-            /*printf("fnlist : %d\n", fnlist);*/
-            /*bzero(buf,BUFSIZE);*/
-            switch(fnlist){
-                case 5  :   Read();break;
-                case 6  :   Send();break;
-                case 7  :   Delete();break;
-                case 8  :   Done();break;
-                default :   printf("Command not found: %s",orig_str2);break;
-            }
-            /*n = write(sockfd, buf, strlen(buf));
-            if (n < 0) 
-              error("ERROR writing to socket");
+                /*printf("arg3 : %s,  arg4 : %s \n",arg3,arg4);
+                printf("strlen of arg4 : %d \n", arg4!=NULL?strlen(arg4):0);*/
+                if (arg3!=NULL){
+                    if (arg3[strlen(arg3)-1] == '\n')
+                        arg3[strlen(arg3)-1] = NULL;
+                }
+                if (arg4!=NULL){
+                    if (arg4[strlen(arg4)-1] == '\n')
+                        arg4[strlen(arg4)-1] = NULL;
+                }
 
-            bzero(buf, BUFSIZE);
-            n = read(sockfd, buf, BUFSIZE);
-            if (n < 0) 
-              error("ERROR reading from socket");
-            printf("Echo from server: %s\n", buf);*/
-            if (fnlist == 8)
-                break;
+                i = 0;
+                int operatorlen = strlen(arg3);
+                /*convert operator string to lowercase, so that operater is no longer case sensitive*/
+                while (i< operatorlen){
+                    if(arg3[i] >= 65 && arg3[i]<=90)
+                        arg3[i] = arg3[i] + 32;
+                    i++;
+                }
+
+                if(!strcmp(arg3,"read"))
+                    fnlist = 5;
+                else if(!strcmp(arg3,"send"))
+                    {   if(arg4 == NULL)
+                            continue;
+                        else
+                            fnlist = 6;
+                    }
+                else if(!strcmp(arg3,"delete"))
+                    fnlist = 7;
+                else if(!strcmp(arg3,"done"))
+                    fnlist = 8;
+                else fnlist = 0;
+                /*printf("fnlist : %d\n", fnlist);*/
+                /*bzero(buf,BUFSIZE);*/
+                switch(fnlist){
+                    case 5  :   Read();break;
+                    case 6  :   Send();break;
+                    case 7  :   Delete();break;
+                    case 8  :   Done();break;
+                    default :   printf("Command not found: %s",orig_str2);break;
+                }
+                /*n = write(sockfd, buf, strlen(buf));
+                if (n < 0) 
+                  error("ERROR writing to socket");
+
+                bzero(buf, BUFSIZE);
+                n = read(sockfd, buf, BUFSIZE);
+                if (n < 0) 
+                  error("ERROR reading from socket");
+                printf("Echo from server: %s\n", buf);*/
+                if (fnlist == 8)
+                    break;
+            }
         }
     }
     bzero(arg2,ARGSIZE);
