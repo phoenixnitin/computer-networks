@@ -8,17 +8,21 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <dirent.h>
+#include <time.h>
 
 #define BUFSIZE 1024
 #define ARGSIZE 40
 #define EMAILNO 50
+char subject[BUFSIZE]; message[BUFSIZE]; /* message buffer */
 char buf2[BUFSIZE], buf3[BUFSIZE], email[EMAILNO][BUFSIZE];
-char arg1[ARGSIZE], arg2[ARGSIZE], username[ARGSIZE];
+char arg1[ARGSIZE], arg2[ARGSIZE], username[ARGSIZE],sendtouser[ARGSIZE];
 int fnlist, emailnumber, totalemail;
 int count=0;
 int readcount=0;
+
+
 /*all functions*/
-void server_interface(/*parameters*/){
+void server_interface(int childfd/*parameters*/){
   /*function defination*/
   bzero(arg1,ARGSIZE);
   printf("server interface, read string : %s\n", buf2);
@@ -58,7 +62,11 @@ void server_interface(/*parameters*/){
   else if(!strcmp(arg1,"DELM"))
       fnlist = 5;
   else if(!strcmp(arg1,"SEND"))
-      fnlist = 6;
+      {
+        fnlist = 6;
+        bzero(sendtouser,ARGSIZE);
+        strcpy(sendtouser,arg2);
+      }
   else if(!strcmp(arg1,"DONEU"))
       fnlist = 7;
   else if(!strcmp(arg1,"QUIT"))
@@ -72,7 +80,7 @@ void server_interface(/*parameters*/){
       case 3  :   USER();bzero(arg2,ARGSIZE);break;
       case 4  :   READM();break;
       case 5  :   DELM();break;
-      case 6  :   SEND();break;
+      case 6  :   SEND(childfd);break;
       case 7  :   DONEU();break;
       case 8  :   QUIT();break;
       default :   break;
@@ -187,9 +195,9 @@ void USER(/*parameters*/){
             }*/
     bzero(buf3, BUFSIZE);
     sprintf(buf3, "ACK : User exists and has %d messages.", count);
-    printf("buf3 : %s\n", buf3);
+    /*printf("buf3 : %s\n", buf3);
     for (k=0;k<count;k++)
-      printf("%s\n", email[k]);
+      printf("%s\n", email[k]);*/
     /*if(write(childfd, buf3, strlen(buf3)) < 0)
         error("ERROR writing to socket");*/
     fclose(fp);
@@ -282,20 +290,89 @@ void DELM(/*parameters*/){
   }
 }
 
-void SEND(/*parameters*/){
+void SEND(int childfd/*parameters*/){
   /*function defination*/
+  bzero(buf3,BUFSIZE);
+  strcpy(buf3,"SEND is called.");
   printf("SEND is called.\n");
+  printf("From :%s, To:%s\n", username, sendtouser);
+  int n;
+  FILE *fp;
+  char fname[50];
+  char ACK[20];
+  bzero(fname, 50);
+  strcpy(fname, "users/");
+  /*printf("sendtouser : %s\n", sendtouser);*/
+  strcat(fname, sendtouser);
+  printf("fname : %s\n", fname);
+  fp = fopen(fname, "r");
+  if (fp == NULL)
+  { 
+    /*bzero(ACK, 20);
+    strcpy(ACK, "INVALIDUSER");
+    printf("%s\n", ACK);
+    n = write(childfd, ACK, strlen(ACK));
+    if (n < 0) 
+      error("ERROR writing to socket");
+    bzero(ACK, 20);*/
+    bzero(buf3,BUFSIZE);
+    strcpy(buf3,"INVALIDUSER");
+    return;
+  }
+  else 
+  {
+    bzero(ACK, 20);
+    strcpy(ACK, "AVAILABLEUSER");
+    printf("%s\n", ACK);
+    n = write(childfd, ACK, strlen(ACK));
+    if (n < 0) 
+      error("ERROR writing to socket");
+    bzero(ACK, 20);
+    fclose(fp);
+    
+    time_t mytime;
+    mytime = time(NULL);
+    printf("time :%s", ctime(&mytime));
+
+    bzero(subject,BUFSIZE);
+    n = read(childfd, subject, BUFSIZE);
+    if (n < 0) 
+      error("ERROR reading from socket");
+    printf("subject :%s", subject);
+
+    bzero(message,BUFSIZE);
+    n = read(childfd, message, BUFSIZE);
+    if (n < 0) 
+      error("ERROR reading from socket");
+    printf("Message :%s", message);
+    printf("subject length: %d,   message length:%d\n",strlen(subject),strlen(message));
+    
+      char createemail[BUFSIZE];
+      bzero(createemail,BUFSIZE);
+      sprintf(createemail,"From: %s\nTo: %s\nDate: %sSubject: %sMessage: %s", username, sendtouser, ctime(&mytime), subject, message);
+      bzero(subject,BUFSIZE);
+      bzero(message,BUFSIZE);
+      printf("created email\n%s", createemail);
+      fp = fopen(fname, "a");
+      if (fp == NULL)
+          perror("ERROR file opening");
+      fputs(createemail, fp);
+      fclose(fp);
+      strcpy(buf3,"Send Successfully");    
+  }
 }
 
 void DONEU(/*parameters*/){
   /*function defination*/
   printf("DONEU is called.\n");
   readcount = 0;
+  strcpy(buf3,"Logged Out");
 }
 
 void QUIT(/*parameters*/){
   /*function defination*/
   printf("QUIT is called.\n");
+  strcpy(buf3,"Session over");
 }
 
 void error(char *msg) {
@@ -405,27 +482,36 @@ int main(int argc, char **argv) {
       n = read(childfd, buf, BUFSIZE);
       if (n < 0) 
         error("ERROR reading from socket");
-      if(!strcmp(buf,"QUIT") || n == 0){
-        rep='n';
-      }
-      else 
+      printf("buf length:%d\n",strlen(buf));
+      if(strlen(buf)>0)
       {
-        bzero(buf2, BUFSIZE);
-        strcpy(buf2,buf);
-        server_interface();
-        if(strlen(buf3) > 0) {
-          bzero(buf, BUFSIZE);
-          strcpy(buf,buf3);
+        if(!strcmp(buf,"QUIT")){
+          rep='n';
         }
+        
+        
+          bzero(buf2, BUFSIZE);
+          strcpy(buf2,buf);
+          server_interface(childfd);
+          if(strlen(buf3) > 0) {
+            bzero(buf, BUFSIZE);
+            strcpy(buf,buf3);
+          }
+          else
+            printf("buf3 length in zero.\n");
+        
+        printf("server received %d bytes: %s\n", n, buf);
+        /* 
+         * write: echo the input string back to the client 
+         */
+        if (strlen(buf3)>0)
+        {  n = write(childfd, buf, strlen(buf));
+          if (n < 0) 
+            error("ERROR writing to socket");
+        }
+        bzero(buf3, BUFSIZE);
       }
-      printf("server received %d bytes: %s\n", n, buf);
-      /* 
-       * write: echo the input string back to the client 
-       */
-      n = write(childfd, buf, strlen(buf));
-      if (n < 0) 
-        error("ERROR writing to socket");
-      bzero(buf3, BUFSIZE);
+      else break;
     }
     close(childfd);
   }

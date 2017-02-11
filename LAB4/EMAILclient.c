@@ -278,75 +278,88 @@ void Delete(/*arguments*/){
 
 void Send(/*arguments*/){
     /*defination*/
-    if (strlen(arg4) <= 0);
-    else
-    {    
-        printf("Send is called.\n");
-        printf("subject: ");
-        bzero(subject, SUBJECTSIZE);
-        fgets(subject, SUBJECTSIZE, stdin);
-        printf("Type Message: ");
-        bzero(buf,BUFSIZE);
-        /*fgets(buf,BUFSIZE,stdin);*/
-        char rep = 'y';
-        while (rep == 'y')
-        {
-            int i=0;
-            fgets(buf2, BUFSIZE, stdin);            
-            while(buf2[i] != NULL)
-            {   
-                if (buf2[i] == '#')
-                {   if (buf2[i+1] == '#')
-                        if (buf2[i+2] == '#')
-                        {   
-                            rep = 'n';
-                            int j=i+3;
-                            while(buf2[j+1] != NULL)
-                            {
-                                buf2[j] = NULL;
-                                j++;
-                            }
-                            buf2[i+3] = '\n';
-                            break;
-                        }
-                }
-                i++;
-            }
-            strcat(buf,buf2);
+    bzero(buf2, BUFSIZE);
+    strcpy(buf2, "SEND ");
+    strcat(buf2, arg4);
+    n = write(sockfd, buf2, strlen(buf2));
+    if (n < 0) 
+    error("ERROR writing to socket");
+    
+    char ACK[50];
+    bzero(ACK, 50);
+    n = read(sockfd, ACK, 50);
+    if (n < 0) 
+      error("ERROR reading from socket");
+    printf("ACK : %s, length=%d \n", ACK, strlen(ACK));
+
+    if(strlen(ACK)>11)
+    {   int p;
+        for(p=11;p<50;p++)
+        {   
+            /*printf("%c\n", ACK[p]);*/
+            ACK[p]=NULL;
         }
+    }
+    printf("ACK : %s\n",ACK );
+    if (! strcmp(ACK, "INVALIDUSER"))
+    {
+        bzero(ACK, 20);
+        return;
+    }
+    else
+    {
+        if (strlen(arg4) <= 0);
+        else
+        {    
+            printf("Send is called.\n");
+            printf("subject: ");
+            bzero(subject, SUBJECTSIZE);
+            fgets(subject, SUBJECTSIZE, stdin);
+            bzero(buf, BUFSIZE);
+            n = write(sockfd, subject, strlen(subject));
+            if (n < 0) 
+              error("ERROR reading from socket");
 
-        n = write(sockfd, subject, strlen(subject));
-        if (n < 0) 
-        error("ERROR writing to socket");
-
-        bzero(subject, SUBJECTSIZE);
-        n = read(sockfd, subject, SUBJECTSIZE);
-        if (n < 0) 
-          error("ERROR reading from socket");
-        printf("Echo from server: %s", subject);
-
-        bzero(buf2, BUFSIZE);
-        strcpy(buf2, "SEND ");
-        strcat(buf2, arg4);
-        n = write(sockfd, buf2, strlen(buf2));
-        if (n < 0) 
-        error("ERROR writing to socket");
-
-        bzero(buf2, BUFSIZE);
-        n = read(sockfd, buf2, BUFSIZE);
-        if (n < 0) 
-          error("ERROR reading from socket");
-        /*printf("Echo from server: %s\n", buf2);*/
-
+            printf("Type Message: ");
+            bzero(buf,BUFSIZE);
+            /*fgets(buf,BUFSIZE,stdin);*/
+            char rep = 'y';
+            while (rep == 'y')
+            {
+                int i=0;
+                bzero(buf2,BUFSIZE);
+                fgets(buf2, BUFSIZE, stdin);            
+                while(buf2[i] != NULL)
+                {   
+                    if (buf2[i] == '#')
+                    {   if (buf2[i+1] == '#')
+                            if (buf2[i+2] == '#')
+                            {   
+                                rep = 'n';
+                                int j=i+3;
+                                while(buf2[j+1] != NULL)
+                                {
+                                    buf2[j] = NULL;
+                                    j++;
+                                }
+                                buf2[i+3] = '\n';
+                                break;
+                            }
+                    }
+                    i++;
+                }
+                strcat(buf,buf2);
+            }
+            bzero(buf2,BUFSIZE);
         n = write(sockfd, buf, strlen(buf));
         if (n < 0) 
         error("ERROR writing to socket");
-
+        }
         bzero(buf, BUFSIZE);
         n = read(sockfd, buf, BUFSIZE);
         if (n < 0) 
           error("ERROR reading from socket");
-        printf("Echo from server: %s", buf);
+        printf("Echo from server: %s\n", buf);
     }
 }
 
@@ -405,99 +418,7 @@ int main(int argc, char **argv) {
     hostname = argv[1];
     portno = atoi(argv[2]);
 
-    /* socket: create the socket */
-    /*sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) 
-        error("ERROR opening socket");*/
-
-    /* gethostbyname: get the server's DNS entry */
-    /*server = gethostbyname(hostname);
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host as %s\n", hostname);
-        exit(0);
-    }*/
-
-    /* build the server's Internet address */
-    /*bzero((char *) &serveraddr, sizeof(serveraddr));
-    serveraddr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr_list[0], 
-      (char *)&serveraddr.sin_addr.s_addr, server->h_length);
-    serveraddr.sin_port = htons(portno);*/
-
-    /* connect: create a connection with the server */
-    /*if (connect(sockfd, &serveraddr, sizeof(serveraddr)) < 0) 
-      error("ERROR connecting");*/
-
     input_interface();
 
-    /*printf("Main-Prompt > ");
-    bzero(buf, BUFSIZE);
-    bzero(buf2, BUFSIZE);*/
-    /*bzero(buf3, BUFSIZE);*/
-    /* get message line from the user */
-    /*fgets(buf3, BUFSIZE, stdin);*/
-    /*printf("Main-Prompt > ");*/
-    /*char rep = 'y';
-    while (rep == 'y')
-    {
-        int i=0;
-        fgets(buf2, BUFSIZE, stdin);            
-        while(buf2[i] != NULL)
-        {   
-            if (buf2[i] == '#')
-            {   if (buf2[i+1] == '#')
-                    if (buf2[i+2] == '#')
-                    {   
-                        rep = 'n';
-                        int j=i+3;
-                        while(buf2[j+1] != NULL)
-                        {
-                            buf2[j] = NULL;
-                            j++;
-                        }
-                        buf2[i+3] = '\n';
-                        break;
-                    }
-            }
-            i++;
-        }
-        strcat(buf,buf2);
-    }*/
-    /* send the message line to the server */
-    /*n = write(sockfd, buf, strlen(buf));
-    if (n < 0) 
-      error("ERROR writing to socket");
-    char *arg1, *arg2, *arg3;
-    char *cmd = strtok(buf," ");
-    int i=0;*/
-    /*printf("Received:");*/
-    /*while (cmd != NULL){
-        printf(" %s", cmd );
-        if(i == 0)
-            arg1 = cmd;
-        else if(i == 1)
-            arg2 = cmd;
-        else if(i == 2)
-            arg3 = cmd;
-        cmd = strtok(NULL, " ");
-        i++;
-    }
-    printf("arg1 : %s,  arg2 : %s,  arg3 : %s \n",arg1,arg2,arg3);*/
-    /*i = 0;
-    int operatorlen = strlen(operator);*/
-    /*convert operator string to lowercase, so that operater is no longer case sensitive*/
-    /*while (i< operatorlen){
-        if(operator[i] >= 65 && operator[i]<=90)
-            operator[i] = operator[i] + 32;
-        i++;
-    }*/
-
-    /* print the server's reply */
-    /*bzero(buf, BUFSIZE);
-    n = read(sockfd, buf, BUFSIZE);
-    if (n < 0) 
-      error("ERROR reading from socket");
-    printf("Echo from server: %s", buf);*/
-    /*close(sockfd);*/
     return 0;
 }
