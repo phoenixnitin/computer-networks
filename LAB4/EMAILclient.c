@@ -109,10 +109,10 @@ void input_interface(/*arguments*/){
 
 void Listusers(/*arguments*/){
     /*defination*/
-    printf("listuser is called.\n");
+    /*printf("listuser is called.\n");*/
     bzero(buf,BUFSIZE);
     strcpy(buf,"LSTU");
-    printf("buf : %s\n", buf);
+    /*printf("buf : %s\n", buf);*/
     n = write(sockfd, buf, strlen(buf));
     if (n < 0) 
       error("ERROR writing to socket");
@@ -121,7 +121,7 @@ void Listusers(/*arguments*/){
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("Userlist:\n%s\n", buf);
 }
 
 void Adduser(/*arguments*/){
@@ -130,7 +130,7 @@ void Adduser(/*arguments*/){
         printf("Invalid username.\n");
     else
     {
-        printf("adduser is called. id : %s\n", arg2);
+        /*printf("adduser is called. id : %s\n", arg2);*/
         bzero(buf,BUFSIZE);
         strcpy(buf, "ADDU ");
         strcat(buf, arg2);
@@ -143,7 +143,7 @@ void Adduser(/*arguments*/){
         n = read(sockfd, buf, BUFSIZE);
         if (n < 0) 
           error("ERROR reading from socket");
-        printf("Echo from server: %s\n", buf);
+        printf("%s\n", buf);
     }
 }
 
@@ -151,7 +151,7 @@ void SetUser(/*arguments*/){
     /*defination*/
     if (strlen(arg2) <= 0);
     else
-    {   printf("setuser is called. id : %s\n", arg2);
+    {   /*printf("setuser is called. id : %s\n", arg2);*/
         bzero(buf,BUFSIZE);
         strcpy(buf, "USER ");
         strcat(buf, arg2);
@@ -163,8 +163,8 @@ void SetUser(/*arguments*/){
         n = read(sockfd, buf, BUFSIZE);
         if (n < 0) 
           error("ERROR reading from socket");
-        printf("Echo from server: %s\n", buf);
-        if (!strcmp(strtok(buf," "),"ACK"))
+        printf("%s\n", buf);
+        if (!strcmp(strtok(buf," "),"User"))
         {
             while(1){
                    
@@ -246,7 +246,7 @@ void SetUser(/*arguments*/){
 
 void Read(/*arguments*/){
     /*defination*/
-    printf("Read is called.\n");
+    /*printf("Read is called.\n");*/
     bzero(buf,BUFSIZE);
     strcpy(buf,"READM");
     n = write(sockfd, buf, strlen(buf));
@@ -257,12 +257,12 @@ void Read(/*arguments*/){
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s", buf);
 }
 
 void Delete(/*arguments*/){
     /*defination*/
-    printf("Delete is called.\n");
+    /*printf("Delete is called.\n");*/
     bzero(buf,BUFSIZE);
     strcpy(buf,"DELM");
     n = write(sockfd, buf, strlen(buf));
@@ -273,7 +273,7 @@ void Delete(/*arguments*/){
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s\n", buf);
 }
 
 void Send(/*arguments*/){
@@ -290,19 +290,20 @@ void Send(/*arguments*/){
     n = read(sockfd, ACK, 50);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("ACK : %s, length=%d \n", ACK, strlen(ACK));
+    /*printf("ACK : %s, length=%d \n", ACK, strlen(ACK));*/
 
-    if(strlen(ACK)>11)
+    /*if(strlen(ACK)>11)
     {   int p;
         for(p=11;p<50;p++)
-        {   
+        { */  
             /*printf("%c\n", ACK[p]);*/
-            ACK[p]=NULL;
+       /*     ACK[p]=NULL;
         }
     }
-    printf("ACK : %s\n",ACK );
+    printf("ACK : %s\n",ACK );*/
     if (! strcmp(ACK, "INVALIDUSER"))
-    {
+    {   
+        printf("%s\n", ACK);
         bzero(ACK, 20);
         return;
     }
@@ -311,8 +312,8 @@ void Send(/*arguments*/){
         if (strlen(arg4) <= 0);
         else
         {    
-            printf("Send is called.\n");
-            printf("subject: ");
+            /*printf("Send is called.\n");*/
+            printf("Subject: ");
             bzero(subject, SUBJECTSIZE);
             fgets(subject, SUBJECTSIZE, stdin);
             bzero(buf, BUFSIZE);
@@ -359,29 +360,29 @@ void Send(/*arguments*/){
         n = read(sockfd, buf, BUFSIZE);
         if (n < 0) 
           error("ERROR reading from socket");
-        printf("Echo from server: %s\n", buf);
+        printf("%s\n", buf);
     }
 }
 
 void Done(/*arguments*/){
     /*defination*/
-    printf("Done is called.\n");
+    /*printf("Done is called.\n");*/
     bzero(buf,BUFSIZE);
     strcpy(buf,"DONEU");
     n = write(sockfd, buf, strlen(buf));
     if (n < 0) 
-    error("ERROR writing to socket");
+      error("ERROR writing to socket");
 
     bzero(buf, BUFSIZE);
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s\n", buf);
 }
 
 void Quit(/*arguments*/){
     /*defination*/
-    printf("quit is called.\n");
+    /*printf("quit is called.\n");*/
     bzero(buf,BUFSIZE);
     strcpy(buf, "QUIT");
     n = write(sockfd, buf, strlen(buf));
@@ -392,7 +393,7 @@ void Quit(/*arguments*/){
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s\n", buf);
     close(sockfd);
 }
 
