@@ -29,9 +29,18 @@ void client_interface(/*arguments*/){
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
         if (sockfd < 0) 
             error("ERROR opening socket");
+        /* gethostbyname: get the server's DNS entry */     
+        server = gethostbyname(hostname);     
+        if (server == NULL) {     
+            fprintf(stderr,"ERROR, no such host as %s\n", hostname);      
+            exit(0);      
+        }     
+      
+        /* build the server's Internet address */     
+        bzero((char *) &serveraddr, sizeof(serveraddr));      
+        bcopy((char *)server->h_addr_list[0], (char *)&serveraddr.sin_addr.s_addr, server->h_length);     
         /* create server address */
         serveraddr.sin_family = AF_INET;
-        serveraddr.sin_addr.s_addr = inet_addr(hostname);
         serveraddr.sin_port = htons(portno);
 
         /* connect: create a connection with the server */

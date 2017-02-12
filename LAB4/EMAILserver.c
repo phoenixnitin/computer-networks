@@ -426,13 +426,19 @@ int main(int argc, char **argv) {
     if (childfd < 0) 
       error("ERROR on accept");
     
+    hostp = gethostbyaddr((const char *)&clientaddr.sin_addr.s_addr, sizeof(clientaddr.sin_addr.s_addr), AF_INET);   
+    /*if (hostp == NULL)
+      error("ERROR on gethostbyaddr");*/
+
     hostaddrp = inet_ntoa(clientaddr.sin_addr);
     if (hostaddrp == NULL)
       error("ERROR on inet_ntoa\n");
     if(!(strcmp(hostaddrp,"127.0.0.1")))
       strcpy(hostaddrp,"localhost");
-    printf("server established connection with %s\n", 
-     hostaddrp);
+    if (hostp != NULL)
+      printf("server established connection with %s (%s)\n", hostp->h_name, hostaddrp);
+    else
+      printf("server established connection with %s\n", hostaddrp);
     
     /* 
      * read: read input string from the client
