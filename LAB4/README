@@ -1,0 +1,33 @@
+I used port no. 4567 for testing myself.
+ports such as 4568, 2356,etc could also be used.
+
+files could be compiled from the LAB4 directory.
+$ make
+make will compile all the files
+
+If server and client is not provided port number, then default port is 4567.
+If client is not provided hostname , then default localhost is used.
+
+It has been assumed that user spool file does not contain more than 1000 emails.
+
+Server could be executed in following ways:
+$ ./EMAILserver
+or
+$ ./EMAILserver 4567
+
+Client could be executed in following ways:
+$ ./EMAILclient
+or
+$ ./EMAILclient 4567
+or 
+$ ./EMAILclient localhost 4567
+
+After reading the all the messages the pointer has been made to go back to first mail by showing a output "INVALID: No More Mail"
+If user sends mail to himself then, to refresh read pointer, user has to give first "done" command , and then "setuser <user>" (i.e user has to login again to refresh mails)
+
+
+for connecting to server using server name (instead of ip address), hosts file has to be updated in server as well as client running machine, with server ipaddress and name.
+Open this file
+$ sudo gedit /etc/hosts
+and add a entry 
+10.22.16.178	nitinserver

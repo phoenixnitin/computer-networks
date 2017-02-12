@@ -19,6 +19,7 @@ char arg1[ARGSIZE], arg2[ARGSIZE], username[ARGSIZE],sendtouser[ARGSIZE];   /* c
 int fnlist, totalemail;   /* function list and total no. of message counter */
 int count=0;    /* counter for messages to be updated while delete */
 int readcount=0;  /* reading message counter */
+char serverprint[100];  /* show messages in server console */
 
 
 /* all functions */
@@ -97,6 +98,8 @@ void LSTU(){
             { /* append each file name to the reply message */
               strcat(messagesend, dir->d_name);
               strcat(messagesend, " ");
+              bzero(serverprint,100);
+              strcpy(serverprint,"send Userlist");
             }
         }
         /* reply with this if no user available */
@@ -104,6 +107,8 @@ void LSTU(){
           {
             bzero(messagesend,BUFSIZE);
             strcpy(messagesend,"Userlist is empty");
+            bzero(serverprint,100);
+            strcpy(serverprint,messagesend);
           }
         closedir(d);
     }
@@ -131,11 +136,15 @@ void ADDU(){
     { 
       bzero(messagesend, BUFSIZE);
       strcpy(messagesend, "User has been added successfully.");
+      bzero(serverprint,100);
+      strcpy(serverprint,messagesend);
     }
   }
   else {
     bzero(messagesend, BUFSIZE);
     strcpy(messagesend, "User already exist.");
+    bzero(serverprint,100);
+    strcpy(serverprint,"ADDU : User already exist.");
     fclose(fp);
   }
   bzero(arg2,ARGSIZE);
@@ -152,6 +161,8 @@ void USER(){
   { 
     bzero(messagesend, BUFSIZE);
     strcpy(messagesend, "INVALIDUSER");
+    bzero(serverprint,100);
+    strcpy(serverprint,"USER: Invalid user");
   }
   else 
   {
@@ -183,6 +194,8 @@ void USER(){
         }
     bzero(messagesend, BUFSIZE);
     sprintf(messagesend, "User exists and has %d messages.", count);
+    bzero(serverprint,100);
+    strcpy(serverprint,"USER: exists");
     fclose(fp);
   }
 }
@@ -229,6 +242,8 @@ void DELM(/*parameters*/){
     { 
       bzero(messagesend, BUFSIZE);
       strcpy(messagesend, "Cannot Delete.");
+      bzero(serverprint,100);
+      strcpy(serverprint,"DELM: Error opening user file");
     }
     else 
     {
@@ -240,6 +255,8 @@ void DELM(/*parameters*/){
       { 
         bzero(messagesend, BUFSIZE);
         strcpy(messagesend, "Error occurred while deleting.");
+        bzero(serverprint,100);
+        strcpy(serverprint,"DELM: Error opening user file for append");
       }
       else 
       {
@@ -252,7 +269,9 @@ void DELM(/*parameters*/){
         }
         fclose(fp);
       }
-      strcpy(messagesend, "successfully deleted.");
+      strcpy(messagesend, "Successfully Deleted.");
+      bzero(serverprint,100);
+      strcpy(serverprint, "DELM: Successfully Deleted.");
       count--;
     }
   }
@@ -322,6 +341,8 @@ void SEND(int childfd){
           perror("ERROR file opening");
       fputs(createemail, fp);
       fclose(fp);
+      bzero(serverprint,100);
+      sprintf(serverprint,"SEND: message sent from %s to %s", username, sendtouser);
       bzero(messagesend,BUFSIZE);
       strcpy(messagesend,"Send Successfully");
     }
@@ -329,6 +350,8 @@ void SEND(int childfd){
     {
       bzero(messagesend,BUFSIZE);
       strcpy(messagesend,"Nothing to send (empty message).");
+      bzero(serverprint,100);
+      strcpy(serverprint,"SEND: Nothing to send (empty message).");
     }
   }
 }
@@ -337,11 +360,15 @@ void DONEU(){
   readcount = 0;
   bzero(messagesend,BUFSIZE);
   strcpy(messagesend,"Logged Out");
+  bzero(serverprint,100);
+  strcpy(serverprint, messagesend);
 }
 
 void QUIT(){
   bzero(messagesend,BUFSIZE);
   strcpy(messagesend,"Session over");
+  bzero(serverprint,100);
+  strcpy(serverprint, messagesend);
 }
 
 void error(char *msg) {
@@ -454,6 +481,7 @@ int main(int argc, char **argv) {
     /* keep taking input  */
     while(rep=='y'){
       bzero(buf, BUFSIZE);
+      bzero(serverprint, 100);
       n = read(childfd, buf, BUFSIZE);
       if (n < 0) 
         error("ERROR reading from socket");
@@ -479,6 +507,8 @@ int main(int argc, char **argv) {
             error("ERROR writing to socket");
         }
         bzero(messagesend, BUFSIZE);
+        if(strlen(serverprint)>0)
+            printf("%s\n", serverprint);
       }
       else break;
     }

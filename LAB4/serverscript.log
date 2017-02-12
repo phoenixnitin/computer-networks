@@ -1,0 +1,50 @@
+Script started on Sunday 12 February 2017 03:13:49 PM IST
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILserver 4567
+server established connection with localhost (localhost)
+Userlist is empty
+User has been added successfully.
+User has been added successfully.
+User has been added successfully.
+USER: exists
+SEND: message sent from user1 to user2
+SEND: message sent from user1 to user3
+SEND: message sent from user1 to user2
+SEND: message sent from user1 to user3
+Logged Out
+USER: exists
+SEND: message sent from user2 to user1
+SEND: message sent from user2 to user1
+Logged Out
+USER: exists
+Logged Out
+USER: exists
+Logged Out
+USER: exists
+SEND: message sent from user3 to user1
+SEND: message sent from user3 to user1
+Logged Out
+USER: exists
+Logged Out
+USER: exists
+Logged Out
+USER: exists
+Logged Out
+USER: exists
+Logged Out
+USER: exists
+Logged Out
+Session over
+server established connection with 192.168.0.100
+send Userlist
+Session over
+server established connection with nitinserver (10.22.16.178)
+send Userlist
+Session over
+server established connection with nitinserver (10.22.16.178)
+send Userlist
+Session over
+^C
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ exit
+exit
+
+Script done on Sunday 12 February 2017 03:22:10 PM IST

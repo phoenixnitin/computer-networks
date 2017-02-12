@@ -1,0 +1,207 @@
+Script started on Sunday 12 February 2017 03:14:01 PM IST
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient localhost 4567
+Main-Prompt > listusers
+Userlist is empty
+Main-Prompt > adduser user1
+User has been added successfully.
+Main-Prompt > adduser user2
+User has been added successfully.
+Main-Prompt > adduser user3
+User has been added successfully.
+Main-Prompt > select user
+Command not found: select user
+Main-Prompt > setuser user1
+User exists and has 0 messages.
+Sub-Prompt-user1 > read
+INVALID: No More Mail
+Sub-Prompt-user1 > dl elete
+Nothing to Delete
+Sub-Prompt-user1 > send user 2  2
+Subject: Hello
+Type Message: Hoe w are you?###
+Send Successfully
+Sub-Prompt-user1 > send user3
+Subject: Hi
+Type Message: Helo lo, where are you now?
+###
+Send Successfully
+Sub-Prompt-user1 > send user2
+Subject: l coffee
+Type Message: let's go to have cod ffee?###
+Send Successfully
+Sub-Prompt-user1 > send user3
+Subject: exam
+Type Message: do you have exam tomorrow?###
+Send Successfully
+Sub-Prompt-user1 > done
+Logged Out
+Main-Prompt > setuser user2
+User exists and has 2 messages.
+Sub-Prompt-user2 > read
+From: user1
+To: user2
+Date: Sun Feb 12 15:15:06 IST 2017
+Subject: Hello
+Message: How are you?###
+Sub-Prompt-user2 > send user1
+Subject: Hello
+Type Message: I am fine###
+Send Successfully
+Sub-Prompt-user2 > read
+From: user1
+To: user2
+Date: Sun Feb 12 15:15:58 IST 2017
+Subject: coffee
+Message: let's go to have coffee?###
+Sub-Prompt-user2 > send userA 1
+Subject: no
+Type Message: some other time###
+Send Successfully
+Sub-Prompt-user2 > read
+INVALID: No More Mail
+Sub-Prompt-user2 > delete
+successfully deleted.
+Sub-Prompt-user2 > delete
+successfully deleted.
+Sub-Prompt-user2 > delete
+Nothing to Delete
+Sub-Prompt-user2 > done
+Logged Out
+Main-Prompt > setuser user1
+User exists and has 2 messages.
+Sub-Prompt-user1 > done
+Logged Out
+Main-Prompt > setuser user2
+User exists and has 0 messages.
+Sub-Prompt-user2 > s done
+Logged Out
+Main-Prompt > setuser user3
+User exists and has 2 messages.
+Sub-Prompt-user3 > read
+From: user1
+To: user3
+Date: Sun Feb 12 15:15:24 IST 2017
+Subject: Hi
+Message: Hello, where are you now?
+###
+Sub-Prompt-user3 > send user1
+Subject: he
+Type Message: i ma    am in room.###
+Send Successfully
+Sub-Prompt-user3 > read
+From: user1
+To: user3
+Date: Sun Feb 12 15:16:35 IST 2017
+Subject: exam
+Message: do you have exam tomorrow?###
+Sub-Prompt-user3 > send user 1  1
+Subject: exam
+Type Message: no  yes, I have exam
+###
+Send Successfully
+Sub-Prompt-user3 > delete
+successfully deleted.
+Sub-Prompt-user3 > done
+Logged Out
+Main-Prompt > setuser user3
+User exists and has 1 messages.
+Sub-Prompt-user3 > read
+From: user1
+To: user3
+Date: Sun Feb 12 15:15:24 IST 2017
+Subject: Hi
+Message: Hello, where are you now?
+###
+Sub-Prompt-user3 > read
+INVALID: No More Mail
+Sub-Prompt-user3 > read
+From: user1
+To: user3
+Date: Sun Feb 12 15:15:24 IST 2017
+Subject: Hi
+Message: Hello, where are you now?
+###
+Sub-Prompt-user3 > done
+Logged Out
+Main-Prompt > setuser user1
+User exists and has 4 messages.
+Sub-Prompt-user1 > read
+From: user2
+To: user1
+Date: Sun Feb 12 15:17:20 IST 2017
+Subject: Hello
+Message: I am fine###
+Sub-Prompt-user1 > delete
+successfully deleted.
+Sub-Prompt-user1 > rea
+Command not found: rea
+Sub-Prompt-user1 > read
+From: user2
+To: user1
+Date: Sun Feb 12 15:17:42 IST 2017
+Subject: no
+Message: some other time###
+Sub-Prompt-user1 > delete
+successfully deleted.
+Sub-Prompt-user1 > read
+From: user3
+To: user1
+Date: Sun Feb 12 15:18:44 IST 2017
+Subject: he
+Message: i am in room.###
+Sub-Prompt-user1 > delete
+successfully deleted.
+Sub-Prompt-user1 > read
+From: user3
+To: user1
+Date: Sun Feb 12 15:19:10 IST 2017
+Subject: exam
+Message: yes, I have exam
+###
+Sub-Prompt-user1 > read
+INVALID: No More Mail
+Sub-Prompt-user1 > read
+From: user3
+To: user1
+Date: Sun Feb 12 15:19:10 IST 2017
+Subject: exam
+Message: yes, I have exam
+###
+Sub-Prompt-user1 > done
+Logged Out
+Main-Prompt > setuser user1
+User exists and has 1 messages.
+Sub-Prompt-user1 > di pne   one
+Logged Out
+Main-Prompt > setuser user2
+User exists and has 0 messages.
+Sub-Prompt-user2 > done
+Logged Out
+Main-Prompt > setuser user 3  3
+User exists and has 1 messages.
+Sub-Prompt-user3 > done
+Logged Out
+Main-Prompt > quit
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient localhost 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 45671 45679 45672 4567. 45671 45676 45678 4567. 45670 4567. 45671 45670 45670 4567
+Main-Prompt > listusers
+Userlist:
+user1 user3 user2 
+Main-Prompt > quit
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient 192.168.0.100 4567[C[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 45671 45670 4567. 45672 45672 4567. 45671 45676 4567. 45671 45677 45678 4567
+Main-Prompt > listusers
+Userlist:
+user1 user3 user2 
+Main-Prompt > quit
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient 10.22.16.178 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567[1P 4567n 4567i 4567t 4567i 4567n 4567s 4567e 4567r 4567v 4567e 4567r 4567
+Main-Prompt > listusers
+Userlist:
+user1 user3 user2 
+Main-Prompt > quit
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ exit
+exit
+
+Script done on Sunday 12 February 2017 03:22:01 PM IST
