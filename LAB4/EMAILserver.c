@@ -195,7 +195,7 @@ void READM(/*parameters*/){
       readcount++;
     else
     { /* once user reaches the end of the mail, then after giving him INVALID reply, we will again showing the messages from start */
-      strcpy(messagesend, "INVALID : No More Mail\n");
+      strcpy(messagesend, "INVALID: No More Mail\n");
       readcount = 0;
     }
 }
@@ -290,8 +290,14 @@ void SEND(int childfd){
     bzero(ACK, 20);
     fclose(fp);
     
-    time_t mytime;
-    mytime = time(NULL);
+    /* store time with abbreviated timezone */
+    char mytime[70];                                                                
+    time_t temp;                                                                  
+    struct tm *timeptr;                                                           
+                                                                                  
+    temp = time(NULL);                                                            
+    timeptr = localtime(&temp);                                                   
+    strftime(mytime,sizeof(mytime)-1,"%a %b %d %T %Z %Y\n", timeptr);                            
   
     bzero(subject,BUFSIZE);
     n = read(childfd, subject, BUFSIZE);
@@ -308,7 +314,7 @@ void SEND(int childfd){
       bzero(createemail,BUFSIZE+strlen(subject));
       if(strlen(message) == 0)
         strcpy(message,"###\n");
-      sprintf(createemail,"From: %s\nTo: %s\nDate: %sSubject: %sMessage: %s", username, sendtouser, ctime(&mytime), subject, message);
+      sprintf(createemail,"From: %s\nTo: %s\nDate: %sSubject: %sMessage: %s", username, sendtouser, mytime, subject, message);
       bzero(subject,BUFSIZE);
       bzero(message,BUFSIZE);
       fp = fopen(fname, "a");
