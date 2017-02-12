@@ -113,7 +113,7 @@ void Listusers(){
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Userlist:\n%s\n", buf);
+    printf("%s\n", buf);
 }
 
 /* function to add users */
@@ -390,16 +390,29 @@ void error(char *msg) {
 
 int main(int argc, char **argv) {
     /* check command line arguments */
-    if (argc != 3) {
-       fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
-       exit(0);
+    switch(argc){
+        case 1: /*strcpy(hostname,"127.0.0.1");*/
+                hostname = "127.0.0.1";
+                portno = 4567;
+                printf("Client running on localhost:4567 by default\n");
+                break;
+        case 2: hostname = "127.0.0.1";
+                portno = atoi(argv[1]);
+                printf("Client running of localhost by default.\n");
+                break;
+        case 3: /* if localhost is typed then changing it to ip address */
+                if(!(strcmp(argv[1],"localhost")))
+                    hostname = "127.0.0.1";
+                else
+                    hostname = argv[1];
+                portno = atoi(argv[2]);
+                break;
+        default:if (argc != 3) {
+                fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
+                exit(0);
+        }
     }
-    /* if localhost is typed then changing it to ip address */
-    if(!(strcmp(argv[1],"localhost")))
-        strcpy(argv[1],"127.0.0.1");
-    hostname = argv[1];
-    portno = atoi(argv[2]);
-
+    
     /* calling interface function */
     client_interface();
     return 0;

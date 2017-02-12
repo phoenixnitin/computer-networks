@@ -91,22 +91,30 @@ void LSTU(){
   d = opendir("users");
   if (d)
     {   bzero(messagesend,BUFSIZE);
-        strcpy(messagesend, "Userlist:\n")
+        strcpy(messagesend, "Userlist:\n");
         while ((dir = readdir(d)) != NULL)
         {  if ( !(!(strcmp(dir->d_name, ".")) || !(strcmp(dir->d_name,".."))))
-            {
+            { /* append each file name to the reply message */
               strcat(messagesend, dir->d_name);
-              strcat(messagesend, " ");}
+              strcat(messagesend, " ");
+            }
         }
+        /* reply with this if no user available */
+        if (strlen(messagesend) == 10)
+          {
+            bzero(messagesend,BUFSIZE);
+            strcpy(messagesend,"Userlist is empty");
+          }
         closedir(d);
     }
   else
-  { 
+  { /* reply with this if directory not available */
     bzero(messagesend,BUFSIZE);
     strcpy(messagesend,"\'users\' directory not found.");
   }
 }
 
+/* add a user by creating a user spool file */
 void ADDU(){
   FILE *fp, *fp2;
   char fname[50];
@@ -143,7 +151,7 @@ void USER(){
   if (fp == NULL)
   { 
     bzero(messagesend, BUFSIZE);
-    strcpy(messagesend, "User does not exist.");
+    strcpy(messagesend, "INVALIDUSER");
   }
   else 
   {
@@ -186,7 +194,7 @@ void READM(/*parameters*/){
     if(strlen(messagesend) > 0)
       readcount++;
     else
-    {
+    { /* once user reaches the end of the mail, then after giving him INVALID reply, we will again showing the messages from start */
       strcpy(messagesend, "INVALID : No More Mail\n");
       readcount = 0;
     }
@@ -195,9 +203,11 @@ void READM(/*parameters*/){
 void DELM(/*parameters*/){
   /*function defination*/
   int i;
+  /* check if user is having any messages */
   if(count > 0)
   {
     i = readcount;
+    /* copy each emails to previous one for filling the deleted value */
     while (strlen(email[i]) > 0 && i < count)
     { 
       bzero(email[i-1], BUFSIZE);
@@ -213,6 +223,7 @@ void DELM(/*parameters*/){
     bzero(fname, 50);
     strcpy(fname, "users/");
     strcat(fname, username);
+    /* open file and append rest of the remaining emails into it */
     fp = fopen(fname, "w");
     if (fp == NULL)
     { 
@@ -233,6 +244,7 @@ void DELM(/*parameters*/){
       else 
       {
         i = 1;
+        /* write mails into the user file */
         while(strlen(email[i]) > 0)
         {
           fputs(email[i],fp);
@@ -251,8 +263,7 @@ void DELM(/*parameters*/){
   }
 }
 
-void SEND(int childfd/*parameters*/){
-  /*function defination*/
+void SEND(int childfd){
   bzero(messagesend,BUFSIZE);
   strcpy(messagesend,"SEND is called.");
   int n;
@@ -316,15 +327,13 @@ void SEND(int childfd/*parameters*/){
   }
 }
 
-void DONEU(/*parameters*/){
-  /*function defination*/
+void DONEU(){
   readcount = 0;
   bzero(messagesend,BUFSIZE);
   strcpy(messagesend,"Logged Out");
 }
 
-void QUIT(/*parameters*/){
-  /*function defination*/
+void QUIT(){
   bzero(messagesend,BUFSIZE);
   strcpy(messagesend,"Session over");
 }
@@ -350,11 +359,15 @@ int main(int argc, char **argv) {
   /* 
    * check command line arguments 
    */
-  if (argc != 2) {
-    fprintf(stderr, "usage: %s <port>\n", argv[0]);
-    exit(1);
+  switch(argc){
+    case 1: portno = 4567;
+            printf("Server running on port 4567 by default.\n");
+            break;
+    case 2: portno = atoi(argv[1]);
+            break;
+    default:fprintf(stderr, "usage: %s <port>\n", argv[0]);
+            exit(1);
   }
-  portno = atoi(argv[1]);
 
   /* 
    * socket: create the parent socket 
@@ -426,6 +439,7 @@ int main(int argc, char **argv) {
      */
     readcount = 0;
     char rep='y';
+    /* keep taking input  */
     while(rep=='y'){
       bzero(buf, BUFSIZE);
       n = read(childfd, buf, BUFSIZE);
@@ -436,8 +450,6 @@ int main(int argc, char **argv) {
         if(!strcmp(buf,"QUIT")){
           rep='n';
         }
-        
-        
           bzero(buf2, BUFSIZE);
           strcpy(buf2,buf);
           server_interface(childfd);
@@ -445,8 +457,9 @@ int main(int argc, char **argv) {
             bzero(buf, BUFSIZE);
             strcpy(buf,messagesend);
           }
+        
         /* 
-         * write: echo the input string back to the client 
+         * write: reply message to the client 
          */
         if (strlen(messagesend)>0)
         {  n = write(childfd, buf, strlen(buf));
