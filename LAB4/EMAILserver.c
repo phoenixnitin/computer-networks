@@ -10,7 +10,7 @@
 #include <dirent.h>
 #include <time.h>
 
-#define BUFSIZE 1024
+#define BUFSIZE 2048
 #define ARGSIZE 40
 #define EMAILNO 1000    /* no of email a user can have */
 char subject[BUFSIZE]; message[BUFSIZE]; /* subject and message buffer */

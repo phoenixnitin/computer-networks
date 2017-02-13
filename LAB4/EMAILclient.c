@@ -305,6 +305,8 @@ void Send(){
 
             printf("Type Message: ");
             bzero(buf,BUFSIZE);
+            char previous_line[BUFSIZE];
+            bzero(previous_line, BUFSIZE);
             char rep = 'y';
             /* input content continuously till ### is not entered or buffer get full */
             int k = 0;
@@ -333,15 +335,24 @@ void Send(){
                     i++;
                     k++;
                 }
-                strcat(buf,buf2);
+                
                 /* if buffer is full then make last three character ### */
-                if(strlen(buf) >= BUFSIZE)
-                {
-                    printf("Buffer is full.\n");
-                    buf[k-2] = '#';
-                    buf[k-3] = '#';
-                    buf[k-4] = '#';
+                if(strlen(buf)+strlen(buf2)+strlen(subject) > BUFSIZE-4)
+                {   
+                    if ( previous_line[strlen(previous_line) - 1] == '\n')
+                        previous_line[strlen(previous_line) - 1] = NULL;
+                    printf("Buffer is full.\nSending message till\n\"%s\"\n", previous_line);
+                    buf[strlen(buf)] = '#';
+                    buf[strlen(buf)] = '#';
+                    buf[strlen(buf)] = '#';
+                    buf[strlen(buf)] = '\n';
                     break;
+                }
+                else
+                {
+                    strcat(buf,buf2);
+                    bzero(previous_line, BUFSIZE);
+                    strcpy(previous_line, buf2);
                 }
             }
             /* write message to server */
