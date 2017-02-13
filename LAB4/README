@@ -31,12 +31,3 @@ Open this file
 $ sudo gedit /etc/hosts
 and add a entry 
 10.22.16.178	nitinserver
-
-
-script file was created using following commands:
-$ script --timing=servertime.txt serverscript.log
-$ script --timing=clienttime.txt clientscript.log
-
-Theresfore scriptreplay could also be used like below:
-$ scriptreplay --timing=servertime.txt serverscript.log
-$ scriptreplay --timing=clienttime.txt clientscript.log
