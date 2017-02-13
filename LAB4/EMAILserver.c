@@ -195,7 +195,7 @@ void USER(){
     bzero(messagesend, BUFSIZE);
     sprintf(messagesend, "User exists and has %d messages.", count);
     bzero(serverprint,100);
-    strcpy(serverprint,"USER: exists");
+    sprintf(serverprint,"USER: %s exists and logged in", arg2);
     fclose(fp);
   }
 }
@@ -327,7 +327,7 @@ void SEND(int childfd){
     n = read(childfd, message, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    if (strlen(subject)>0 || strlen(message)>0)
+    if (strlen(subject)>0 && strlen(message)>0)
     {
       char createemail[BUFSIZE+strlen(subject)];
       bzero(createemail,BUFSIZE+strlen(subject));
