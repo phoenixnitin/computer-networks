@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-//import java.util.Random;
+import java.util.Random;
 
 class GBNserver
 {
@@ -54,14 +54,14 @@ class GBNserver
       }
       if (debug == true)
          System.out.println(RANDOM_DROP_PROB);
-      
+
       DatagramSocket serverSocket = new DatagramSocket(PORTNO);
       byte[] receiveData = new byte[1024];
       byte[] sendData = new byte[1024];
-      //Random rand_generator = new Random();
+      Random rand_generator = new Random();
       while(true)
          {  
-            //double rand_prob = rand_generator.nextDouble();
+            double rand_prob = rand_generator.nextDouble();
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             serverSocket.receive(receivePacket);
             /*if(rand_prob <= RANDOM_DROP_PROB)
@@ -70,14 +70,19 @@ class GBNserver
                System.out.println("Packet Dropped");
                continue;
             }*/
+
             String sentence = new String( receivePacket.getData());
             System.out.println("RECEIVED: " + sentence);
+            char ACK = sentence.charAt(0);
             InetAddress IPAddress = receivePacket.getAddress();
             int port = receivePacket.getPort();
-            String capitalizedSentence = sentence.toUpperCase();
-            sendData = capitalizedSentence.getBytes();
-            DatagramPacket sendPacket =
-            new DatagramPacket(sendData, sendData.length, IPAddress, port);
+            // String capitalizedSentence = sentence.toUpperCase();
+            // sendData = capitalizedSentence.getBytes();
+            System.out.println("First char = "+ACK);
+            String send = "ACK" + ACK;
+            System.out.println("substring = "+sentence.substring(1));
+            sendData = send.getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
             serverSocket.send(sendPacket);
             receiveData=null;
             receiveData = new byte[1024];
