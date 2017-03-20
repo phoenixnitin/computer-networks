@@ -1,0 +1,516 @@
+Script started on Monday 20 March 2017 11:50:07 PM IST
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ make
+javac -g SlottedAloha.java
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ java SlottedAloha 
+No. Of Nodes(N): 2, Collision Window(W): 2, Packet Generation Probability(P): 0.5
+Utilization: 0.8333333333333334
+Average packet delay(ms): 0.0
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ java SlottedAloha -N 10
+No. Of Nodes(N): 10, Collision Window(W): 2, Packet Generation Probability(P): 0.5
+Utilization: 0.38461538461538464
+Average packet delay(ms): 0.4
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ java SlottedAloha -N 10 -M 15
+No. Of Nodes(N): 10, Collision Window(W): 2, Packet Generation Probability(P): 0.5
+Utilization: 0.28846153846153844
+Average packet delay(ms): 0.4
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ java SlottedAloha -N 10 -M 15 -W 5
+No. Of Nodes(N): 10, Collision Window(W): 5, Packet Generation Probability(P): 0.5
+Utilization: 0.29411764705882354
+Average packet delay(ms): 0.13333333333333333
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ java SlottedAloha -N 10 -M 15 -W 5 -P 0.9
+No. Of Nodes(N): 10, Collision Window(W): 5, Packet Generation Probability(P): 0.9
+Utilization: 0.45454545454545453
+Average packet delay(ms): 0.13333333333333333
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ java SlottedAloha -N 10 -M 15 -W 5 -P 0.9[1P[1P[1@3[C[C[C[C[C[1P[1@5[1P[1P[1@8[C[C[C[C[C[1P[1@2[C[C[C[C[C[C[C -d
+Debug mode is ON.
+users = 3
+MAX_PACKETS = 8
+PACKET_GEN_RATE = 1000.0
+PACKET_GEN_PROBABILITY = 0.9
+Collision Window = 2
+PACKET_LENGTH = 10
+user : 0
+while counter : 0
+node buffer 0 : LPNZUSIMWV
+node buffer 1 :
+user : 1
+while counter : 0
+node buffer 0 : NBYHOTEIGB
+node buffer 1 :
+user : 2
+while counter : 0
+node buffer 0 : FODNMRJQKR
+node buffer 1 :
+counter : 3
+transmit size : 3
+Retransmission Attempts for user 0 : 1
+Retransmission Attempts for user 1 : 1
+Retransmission Attempts for user 2 : 1
+counter : 0
+transmit size : 0
+user : 0
+while counter : 2
+node buffer 0 : LPNZUSIMWV
+node buffer 1 :NVLWOTUYVK
+user : 1
+while counter : 2
+node buffer 0 : NBYHOTEIGB
+node buffer 1 :RWWSFIRWFJ
+user : 2
+while counter : 2
+node buffer 0 : FODNMRJQKR
+node buffer 1 :UIMNXJMGPL
+counter : 3
+transmit size : 3
+Retransmission Attempts for user 0 : 2
+Retransmission Attempts for user 1 : 2
+Retransmission Attempts for user 2 : 2
+user : 0
+while counter : 3
+node buffer 0 : LPNZUSIMWV
+node buffer 1 :NVLWOTUYVK
+counter : 1
+transmit size : 1
+Transmiting Packet : LPNZUSIMWV
+user : 0
+while counter : 4
+node buffer 0 : NVLWOTUYVK
+node buffer 1 :BJQYCGLFTE
+counter : 1
+transmit size : 1
+Transmiting Packet : NVLWOTUYVK
+user : 0
+while counter : 5
+node buffer 0 : BJQYCGLFTE
+node buffer 1 :MVXMXLUFZJ
+counter : 1
+transmit size : 1
+Transmiting Packet : BJQYCGLFTE
+user : 0
+while counter : 6
+node buffer 0 : MVXMXLUFZJ
+node buffer 1 :QYIQHHRWMB
+user : 1
+while counter : 6
+node buffer 0 : NBYHOTEIGB
+node buffer 1 :RWWSFIRWFJ
+user : 2
+while counter : 6
+node buffer 0 : FODNMRJQKR
+node buffer 1 :UIMNXJMGPL
+counter : 3
+transmit size : 3
+Retransmission Attempts for user 0 : 3
+Retransmission Attempts for user 1 : 3
+Retransmission Attempts for user 2 : 3
+counter : 0
+transmit size : 0
+counter : 0
+transmit size : 0
+user : 0
+while counter : 9
+node buffer 0 : MVXMXLUFZJ
+node buffer 1 :QYIQHHRWMB
+counter : 1
+transmit size : 1
+Transmiting Packet : MVXMXLUFZJ
+user : 0
+while counter : 10
+node buffer 0 : QYIQHHRWMB
+node buffer 1 :KGNEKTUDKI
+user : 1
+while counter : 10
+node buffer 0 : NBYHOTEIGB
+node buffer 1 :RWWSFIRWFJ
+counter : 2
+transmit size : 2
+Retransmission Attempts for user 0 : 4
+Retransmission Attempts for user 1 : 4
+counter : 0
+transmit size : 0
+counter : 0
+transmit size : 0
+counter : 0
+transmit size : 0
+user : 0
+while counter : 14
+node buffer 0 : QYIQHHRWMB
+node buffer 1 :KGNEKTUDKI
+counter : 1
+transmit size : 1
+Transmiting Packet : QYIQHHRWMB
+user : 0
+while counter : 15
+node buffer 0 : KGNEKTUDKI
+node buffer 1 :XEPXRYNTEU
+user : 2
+while counter : 15
+node buffer 0 : FODNMRJQKR
+node buffer 1 :UIMNXJMGPL
+counter : 2
+transmit size : 2
+Retransmission Attempts for user 0 : 5
+Retransmission Attempts for user 2 : 4
+counter : 0
+transmit size : 0
+user : 0
+while counter : 17
+node buffer 0 : KGNEKTUDKI
+node buffer 1 :XEPXRYNTEU
+user : 1
+while counter : 17
+node buffer 0 : NBYHOTEIGB
+node buffer 1 :RWWSFIRWFJ
+counter : 2
+transmit size : 2
+Retransmission Attempts for user 0 : 6
+Retransmission Attempts for user 1 : 5
+counter : 0
+transmit size : 0
+counter : 0
+transmit size : 0
+counter : 0
+transmit size : 0
+counter : 0
+transmit size : 0
+counter : 0
+transmit size : 0
+user : 0
+while counter : 23
+node buffer 0 : KGNEKTUDKI
+node buffer 1 :XEPXRYNTEU
+counter : 1
+transmit size : 1
+Transmiting Packet : KGNEKTUDKI
+user : 0
+while counter : 24
+node buffer 0 : XEPXRYNTEU
+node buffer 1 :XWBEPEBNNH
+counter : 1
+transmit size : 1
+Transmiting Packet : XEPXRYNTEU
+user : 0
+while counter : 25
+node buffer 0 : XWBEPEBNNH
+node buffer 1 :RXKTYJRPZC
+counter : 1
+transmit size : 1
+Transmiting Packet : XWBEPEBNNH
+Transmited Packet 0 : LPNZUSIMWV
+Transmited Packet 1 : NVLWOTUYVK
+Transmited Packet 2 : BJQYCGLFTE
+Transmited Packet 3 : MVXMXLUFZJ
+Transmited Packet 4 : QYIQHHRWMB
+Transmited Packet 5 : KGNEKTUDKI
+Transmited Packet 6 : XEPXRYNTEU
+Transmited Packet 7 : XWBEPEBNNH
+Total Retransmission Attempts :15
+Simulation Time :25
+No. Of Nodes(N): 3, Collision Window(W): 2, Packet Generation Probability(P): 0.9
+Utilization: 0.32
+Average packet delay(ms): 0.5
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ ./SlottedAloha.sh 
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.2702702702702703
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.47619047619047616
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.2631578947368421
+Average packet delay(ms): 0.4
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.3225806451612903
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.43478260869565216
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.3225806451612903
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.3448275862068966
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.5263157894736842
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.20408163265306123
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.01
+Utilization: 0.37037037037037035
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.3448275862068966
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.3225806451612903
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.5555555555555556
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.45454545454545453
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.4
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.24390243902439024
+Average packet delay(ms): 0.4
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.47619047619047616
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.7692307692307693
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.4166666666666667
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.02
+Utilization: 0.2777777777777778
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.5263157894736842
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.47619047619047616
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.47619047619047616
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.4166666666666667
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.43478260869565216
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.24390243902439024
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.37037037037037035
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.3448275862068966
+Average packet delay(ms): 0.4
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.2777777777777778
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.03
+Utilization: 0.37037037037037035
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.2857142857142857
+Average packet delay(ms): 0.4
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.1694915254237288
+Average packet delay(ms): 1.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.3333333333333333
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.2702702702702703
+Average packet delay(ms): 1.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.3225806451612903
+Average packet delay(ms): 0.4
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.5
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.3125
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.37037037037037035
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.35714285714285715
+Average packet delay(ms): 0.9
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.05
+Utilization: 0.35714285714285715
+Average packet delay(ms): 0.5
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.19607843137254902
+Average packet delay(ms): 1.4
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.2222222222222222
+Average packet delay(ms): 0.9
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.17543859649122806
+Average packet delay(ms): 1.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.18181818181818182
+Average packet delay(ms): 1.9
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.19230769230769232
+Average packet delay(ms): 1.5
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.2222222222222222
+Average packet delay(ms): 1.2
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.24390243902439024
+Average packet delay(ms): 1.1
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.21739130434782608
+Average packet delay(ms): 1.3
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.17857142857142858
+Average packet delay(ms): 1.0
+No. Of Nodes(N): 50, Collision Window(W): 2, Packet Generation Probability(P): 0.1
+Utilization: 0.16129032258064516
+Average packet delay(ms): 1.8
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.21739130434782608
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.3448275862068966
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.38461538461538464
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.18867924528301888
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.35714285714285715
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.3225806451612903
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.47619047619047616
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.23809523809523808
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.23809523809523808
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.01
+Utilization: 0.47619047619047616
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.38461538461538464
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.35714285714285715
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.30303030303030304
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.3448275862068966
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.29411764705882354
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.38461538461538464
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.35714285714285715
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.5882352941176471
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.43478260869565216
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.02
+Utilization: 0.47619047619047616
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.35714285714285715
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.3448275862068966
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.38461538461538464
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.45454545454545453
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.5555555555555556
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.3333333333333333
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.43478260869565216
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.30303030303030304
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.43478260869565216
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.03
+Utilization: 0.38461538461538464
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.37037037037037035
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.2857142857142857
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.2222222222222222
+Average packet delay(ms): 0.9
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.5
+Average packet delay(ms): 0.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.30303030303030304
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.35714285714285715
+Average packet delay(ms): 0.2
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.29411764705882354
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.2857142857142857
+Average packet delay(ms): 0.3
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.35714285714285715
+Average packet delay(ms): 0.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.05
+Utilization: 0.17543859649122806
+Average packet delay(ms): 1.1
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.2777777777777778
+Average packet delay(ms): 0.8
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.2857142857142857
+Average packet delay(ms): 1.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.37037037037037035
+Average packet delay(ms): 0.6
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.2702702702702703
+Average packet delay(ms): 1.2
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.19230769230769232
+Average packet delay(ms): 1.6
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.24390243902439024
+Average packet delay(ms): 1.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.18867924528301888
+Average packet delay(ms): 1.9
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.20833333333333334
+Average packet delay(ms): 1.2
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.23255813953488372
+Average packet delay(ms): 1.0
+No. Of Nodes(N): 50, Collision Window(W): 4, Packet Generation Probability(P): 0.1
+Utilization: 0.3448275862068966
+Average packet delay(ms): 0.4
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB7deadshot@phoenix-PC:~/Documents/computer-networks/LAB7$ exit
+exit
+
+Script done on Monday 20 March 2017 11:51:56 PM IST

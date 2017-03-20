@@ -5,8 +5,8 @@ JC = javac
 		$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-		SlottedAloha.java 
-
+		SlottedAloha.java
+		
 default: classes
 
 classes: $(CLASSES:.java=.class)
