@@ -1,0 +1,188 @@
+Script started on Monday 13 February 2017 04:07:35 PM IST
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient localhost 4567
+Main-Prompt > listusers
+Userlist is empty
+Main-Prompt > adduser user1
+User has been added successfully.
+Main-Prompt > adduser user2
+User has been added successfully.
+Main-Prompt > adduser user3
+User has been added successfully.
+Main-Prompt > setuser user1
+User exists and has 0 messages.
+Sub-Prompt-user1 > read
+INVALID: No More Mail
+Sub-Prompt-user1 > delete
+Nothing to Delete
+Sub-Prompt-user1 > send user2
+Subject: hello
+Type Message: how are you?###
+Send Successfully
+Sub-Prompt-user1 > send user2
+Subject: location
+Type Message: where are you now?
+###
+Send Successfully
+Sub-Prompt-user1 > send user3
+Subject: exam
+Type Message: do you hae ve exam tomorrow?
+###
+Send Successfully
+Sub-Prompt-user1 > done
+Logged Out
+Main-Prompt > setuser 2 user2
+User exists and has 2 messages.
+Sub-Prompt-user2 > red ad
+From: user1
+To: user2
+Date: Mon Feb 13 16:08:24 IST 2017
+Subject: hello
+Message: how are you?###
+Sub-Prompt-user2 > send iser1     user1
+Subject: reply
+Type Message: i am fine...###
+Send Successfully
+Sub-Prompt-user2 > se  read
+From: user1
+To: user2
+Date: Mon Feb 13 16:08:44 IST 2017
+Subject: location
+Message: where are you now?
+###
+Sub-Prompt-user2 > send user1
+Subject: location
+Type Message: i am at h rom om       in room...###
+Send Successfully
+Sub-Prompt-user2 > done
+Logged Out
+Main-Prompt > setuser user3
+User exists and has 1 messages.
+Sub-Prompt-user3 > read
+From: user1
+To: user3
+Date: Mon Feb 13 16:09:11 IST 2017
+Subject: exam
+Message: do you have exam tomorrow?
+###
+Sub-Prompt-user3 > send user1
+Subject: exam
+Type Message: yes
+###
+Send Successfully
+Sub-Prompt-user3 > read
+INVALID: No More Mail
+Sub-Prompt-user3 > read
+From: user1
+To: user3
+Date: Mon Feb 13 16:09:11 IST 2017
+Subject: exam
+Message: do you have exam tomorrow?
+###
+Sub-Prompt-user3 > delete
+Successfully Deleted.
+Sub-Prompt-user3 > read
+INVALID: No More Mail
+Sub-Prompt-user3 > done
+Logged Out
+Main-Prompt > setuser user1
+User exists and has 3 messages.
+Sub-Prompt-user1 > read
+From: user2
+To: user1
+Date: Mon Feb 13 16:10:03 IST 2017
+Subject: reply
+Message: i am fine...###
+Sub-Prompt-user1 > delete
+Successfully Deleted.
+Sub-Prompt-user1 > read
+From: user2
+To: user1
+Date: Mon Feb 13 16:10:30 IST 2017
+Subject: location
+Message: i am in room...###
+Sub-Prompt-user1 > delete
+Successfully Deleted.
+Sub-Prompt-user1 > read
+From: user3
+To: user1
+Date: Mon Feb 13 16:11:25 IST 2017
+Subject: exam
+Message: yes
+###
+Sub-Prompt-user1 > delete
+Successfully Deleted.
+Sub-Prompt-user1 > read
+INVALID: No More Mail
+Sub-Prompt-user1 > done
+Logged Out
+Main-Prompt > setuser user2
+User exists and has 2 messages.
+Sub-Prompt-user2 > read
+From: user1
+To: user2
+Date: Mon Feb 13 16:08:24 IST 2017
+Subject: hello
+Message: how are you?###
+Sub-Prompt-user2 > sed nd user1
+Subject: coffee
+Type Message: let's go for coffee...###
+Send Successfully
+Sub-Prompt-user2 > done
+Logged Out
+Main-Prompt > setuser user1
+User exists and has 1 messages.
+Sub-Prompt-user1 > read
+From: user2
+To: user1
+Date: Mon Feb 13 16:12:38 IST 2017
+Subject: coffee
+Message: let's go for coffee...###
+Sub-Prompt-user1 > send user2
+Subject: ok
+Type Message: ok, let; 's go###
+Send Successfully
+Sub-Prompt-user1 > done
+Logged Out
+Main-Prompt > quq it
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient 
+Client running on localhost:4567 by default
+Main-Prompt > listusers
+Userlist:
+user1 user3 user2 
+Main-Prompt > quit
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient 192.168.0.100 4567
+Main-Prompt > listusers
+Userlist:
+user1 user3 user2 
+Main-Prompt > adadsa
+Command not found: adadsa
+Main-Prompt > nothing
+Command not found: nothing
+Main-Prompt > setuser nitin     user1
+User exists and has 1 messages.
+Sub-Prompt-user1 > asdasd
+Command not found: asdasd
+Sub-Prompt-user1 > something
+Command not found: something
+Sub-Prompt-user1 > done
+Logged Out
+Main-Prompt > quit
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient 10.22.16.178 4567
+Main-Prompt > listsu  users
+Userlist:
+user1 user3 user2 
+Main-Prompt > quit
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ ./EMAILclient nitinserver 4567
+Main-Prompt > listusers
+Userlist:
+user1 user3 user2 
+Main-Prompt > quit
+Session over
+]0;deadshot@phoenix-PC: ~/Documents/computer-networks/LAB4deadshot@phoenix-PC:~/Documents/computer-networks/LAB4$ exit
+exit
+
+Script done on Monday 13 February 2017 04:15:19 PM IST

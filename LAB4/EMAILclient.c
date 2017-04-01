@@ -14,40 +14,41 @@ int sockfd, portno, n;
 struct sockaddr_in serveraddr;
 struct hostent *server;
 char *hostname;
-char buf[BUFSIZE];
-char buf2[BUFSIZE];
-char buf3[BUFSIZE];
-char orig_str[BUFSIZE],orig_str2[BUFSIZE];
-int i, fnlist;
-char arg1[ARGSIZE], arg2[ARGSIZE], arg3[ARGSIZE], arg4[ARGSIZE];
-char subject[SUBJECTSIZE];
+char buf[BUFSIZE];  /* for buffer */
+char buf2[BUFSIZE];     /* buffer for message */
+char buf3[BUFSIZE];     /* buffer for storing original string in sub prompt */
+char orig_str[BUFSIZE],orig_str2[BUFSIZE];  /* to store original input commands */
+int i, fnlist;  /* loop variable and function list */
+char arg1[ARGSIZE], arg2[ARGSIZE], arg3[ARGSIZE], arg4[ARGSIZE];    /* store commands and 2nd arguments (1,2 for interface and 3,4 for user function) */
+char subject[SUBJECTSIZE];  /* to store subject of the message */
 /*all functions*/
 
-void input_interface(/*arguments*/){
+void client_interface(/*arguments*/){
     /*defination*/
+        /* create socket */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
         if (sockfd < 0) 
             error("ERROR opening socket");
-
-        /* gethostbyname: get the server's DNS entry */
-        server = gethostbyname(hostname);
-        if (server == NULL) {
-            fprintf(stderr,"ERROR, no such host as %s\n", hostname);
-            exit(0);
-        }
-
-        /* build the server's Internet address */
-        bzero((char *) &serveraddr, sizeof(serveraddr));
+        /* gethostbyname: get the server's DNS entry */     
+        server = gethostbyname(hostname);     
+        if (server == NULL) {     
+            fprintf(stderr,"ERROR, no such host as %s\n", hostname);      
+            exit(0);      
+        }     
+      
+        /* build the server's Internet address */     
+        bzero((char *) &serveraddr, sizeof(serveraddr));      
+        bcopy((char *)server->h_addr_list[0], (char *)&serveraddr.sin_addr.s_addr, server->h_length);     
+        /* create server address */
         serveraddr.sin_family = AF_INET;
-        bcopy((char *)server->h_addr_list[0], 
-          (char *)&serveraddr.sin_addr.s_addr, server->h_length);
         serveraddr.sin_port = htons(portno);
 
         /* connect: create a connection with the server */
         if (connect(sockfd, &serveraddr, sizeof(serveraddr)) < 0) 
           error("ERROR connecting"); 
     while(1){
-           
+        
+        /* main input prompt */
         printf("Main-Prompt > ");
         bzero(orig_str,BUFSIZE);
         fgets(orig_str, BUFSIZE, stdin);
@@ -55,9 +56,8 @@ void input_interface(/*arguments*/){
         strcpy(buf, orig_str);
         char *cmd = strtok(buf," ");
         int i=0;
-        /*printf("Received:");*/
+        /* store command and followed string */
         while (cmd != NULL){
-            /*printf(" %s", cmd );*/
             if(i == 0)
                 strcpy(arg1,cmd);
             else if(i == 1)
@@ -65,8 +65,8 @@ void input_interface(/*arguments*/){
             cmd = strtok(NULL, " ");
             i++;
         }
-        /*printf("arg1 : %s,  arg2 : %s,  arg3 : %s \n",arg1,arg2,arg3);
-        printf("strlen of arg2 : %d \n", arg2!=NULL?strlen(arg2):0);*/
+        
+        /* remove next line character from the end of the string */
         if (arg1!=NULL){
             if (arg1[strlen(arg1)-1] == '\n')
                 arg1[strlen(arg1)-1] = NULL;
@@ -85,6 +85,7 @@ void input_interface(/*arguments*/){
             i++;
         }
 
+        /* assign function number to functions for switch */
         if(!strcmp(arg1,"listusers"))
             fnlist = 1;
         else if(!strcmp(arg1,"adduser"))
@@ -94,7 +95,6 @@ void input_interface(/*arguments*/){
         else if(!strcmp(arg1,"quit"))
             fnlist = 4;
         else fnlist = 0;
-        /*printf("fnlist : %d\n", fnlist);*/
         switch(fnlist){
             case 1  :   Listusers();break;
             case 2  :   Adduser();break;
@@ -107,30 +107,31 @@ void input_interface(/*arguments*/){
     }
 }
 
-void Listusers(/*arguments*/){
-    /*defination*/
-    printf("listuser is called.\n");
+/* function to list available users */
+void Listusers(){
     bzero(buf,BUFSIZE);
     strcpy(buf,"LSTU");
-    printf("buf : %s\n", buf);
+
+    /* sending to server */
     n = write(sockfd, buf, strlen(buf));
     if (n < 0) 
       error("ERROR writing to socket");
 
     bzero(buf, BUFSIZE);
+    /* receiving from server */
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s\n", buf);
 }
 
-void Adduser(/*arguments*/){
-    /*defination*/
+/* function to add users */
+void Adduser(){
+    /* adduser user only if username is having any value */
     if (strlen(arg2) <= 0)
         printf("Invalid username.\n");
     else
     {
-        printf("adduser is called. id : %s\n", arg2);
         bzero(buf,BUFSIZE);
         strcpy(buf, "ADDU ");
         strcat(buf, arg2);
@@ -143,96 +144,102 @@ void Adduser(/*arguments*/){
         n = read(sockfd, buf, BUFSIZE);
         if (n < 0) 
           error("ERROR reading from socket");
-        printf("Echo from server: %s\n", buf);
+        printf("%s\n", buf);
     }
 }
 
-void SetUser(/*arguments*/){
-    /*defination*/
-    if (strlen(arg2) <= 0);
+/* function to set user and give sub prompt */
+void SetUser(){
+    /* set user only if it is having any value */
+    if (strlen(arg2) <= 0)
+        printf("Please provide a username\n");
     else
-    {   printf("setuser is called. id : %s\n", arg2);
-
-        while(1){
-               
-            printf("Sub-Prompt-%s > ", arg2);
-            bzero(orig_str2,BUFSIZE);
-            fgets(orig_str2, BUFSIZE, stdin);
-            bzero(buf3,BUFSIZE);
-            strcpy(buf3, orig_str2);
-            char *cmd = strtok(buf3," ");
-            int i=0;
-            /*printf("Received:");*/
-            while (cmd != NULL){
-                /*printf(" %s", cmd );*/
-                if(i == 0)
-                    strcpy(arg3,cmd);
-                else if(i == 1)
-                    strcpy(arg4,cmd);
-                cmd = strtok(NULL, " ");
-                i++;
-            }
-            /*printf("arg3 : %s,  arg4 : %s \n",arg3,arg4);
-            printf("strlen of arg4 : %d \n", arg4!=NULL?strlen(arg4):0);*/
-            if (arg3!=NULL){
-                if (arg3[strlen(arg3)-1] == '\n')
-                    arg3[strlen(arg3)-1] = NULL;
-            }
-            if (arg4!=NULL){
-                if (arg4[strlen(arg4)-1] == '\n')
-                    arg4[strlen(arg4)-1] = NULL;
-            }
-
-            i = 0;
-            int operatorlen = strlen(arg3);
-            /*convert operator string to lowercase, so that operater is no longer case sensitive*/
-            while (i< operatorlen){
-                if(arg3[i] >= 65 && arg3[i]<=90)
-                    arg3[i] = arg3[i] + 32;
-                i++;
-            }
-
-            if(!strcmp(arg3,"read"))
-                fnlist = 5;
-            else if(!strcmp(arg3,"send"))
-                {   if(arg4 == NULL)
-                        continue;
-                    else
-                        fnlist = 6;
+    {   bzero(buf,BUFSIZE);
+        strcpy(buf, "USER ");
+        strcat(buf, arg2);
+        /* send username to server */
+        n = write(sockfd, buf, strlen(buf));
+        if (n < 0) 
+          error("ERROR writing to socket");
+        
+        /* read if user is available in server */
+        bzero(buf, BUFSIZE);
+        n = read(sockfd, buf, BUFSIZE);
+        if (n < 0) 
+          error("ERROR reading from socket");
+        printf("%s\n", buf);
+        /* check first letter of received string */
+        if (!strcmp(strtok(buf," "),"User"))
+        {
+            while(1){
+                /* setting sub prompt for available user */   
+                printf("Sub-Prompt-%s > ", arg2);
+                bzero(orig_str2,BUFSIZE);
+                fgets(orig_str2, BUFSIZE, stdin);
+                bzero(buf3,BUFSIZE);
+                strcpy(buf3, orig_str2);
+                char *cmd = strtok(buf3," ");
+                int i=0;
+                /* storing sub prompt command and followed string */
+                while (cmd != NULL){
+                    if(i == 0)
+                        strcpy(arg3,cmd);
+                    else if(i == 1)
+                        strcpy(arg4,cmd);
+                    cmd = strtok(NULL, " ");
+                    i++;
                 }
-            else if(!strcmp(arg3,"delete"))
-                fnlist = 7;
-            else if(!strcmp(arg3,"done"))
-                fnlist = 8;
-            else fnlist = 0;
-            /*printf("fnlist : %d\n", fnlist);*/
-            /*bzero(buf,BUFSIZE);*/
-            switch(fnlist){
-                case 5  :   Read();break;
-                case 6  :   Send();break;
-                case 7  :   Delete();break;
-                case 8  :   Done();break;
-                default :   printf("Command not found: %s",orig_str2);break;
-            }
-            /*n = write(sockfd, buf, strlen(buf));
-            if (n < 0) 
-              error("ERROR writing to socket");
+                /* removed next line character from the end of the command and followed string */
+                if (arg3!=NULL){
+                    if (arg3[strlen(arg3)-1] == '\n')
+                        arg3[strlen(arg3)-1] = NULL;
+                }
+                if (arg4!=NULL){
+                    if (arg4[strlen(arg4)-1] == '\n')
+                        arg4[strlen(arg4)-1] = NULL;
+                }
 
-            bzero(buf, BUFSIZE);
-            n = read(sockfd, buf, BUFSIZE);
-            if (n < 0) 
-              error("ERROR reading from socket");
-            printf("Echo from server: %s\n", buf);*/
-            if (fnlist == 8)
-                break;
+                i = 0;
+                int operatorlen = strlen(arg3);
+                /*convert operator string to lowercase, so that operater is no longer case sensitive*/
+                while (i< operatorlen){
+                    if(arg3[i] >= 65 && arg3[i]<=90)
+                        arg3[i] = arg3[i] + 32;
+                    i++;
+                }
+
+                /* assigning function list for switching */
+                if(!strcmp(arg3,"read"))
+                    fnlist = 5;
+                else if(!strcmp(arg3,"send"))
+                    {   if(arg4 == NULL)    /* check if send <user> is having any value*/
+                            continue;
+                        else
+                            fnlist = 6;
+                    }
+                else if(!strcmp(arg3,"delete"))
+                    fnlist = 7;
+                else if(!strcmp(arg3,"done"))
+                    fnlist = 8;
+                else fnlist = 0;
+                /* switch for sub prompt */
+                switch(fnlist){
+                    case 5  :   Read();break;
+                    case 6  :   Send();break;
+                    case 7  :   Delete();break;
+                    case 8  :   Done();break;
+                    default :   printf("Command not found: %s",orig_str2);break;
+                }
+                if (fnlist == 8)
+                    break;
+            }
         }
     }
     bzero(arg2,ARGSIZE);
 }
 
-void Read(/*arguments*/){
-    /*defination*/
-    printf("Read is called.\n");
+/* function to read from server */
+void Read(){
     bzero(buf,BUFSIZE);
     strcpy(buf,"READM");
     n = write(sockfd, buf, strlen(buf));
@@ -243,12 +250,11 @@ void Read(/*arguments*/){
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s", buf);
 }
 
-void Delete(/*arguments*/){
-    /*defination*/
-    printf("Delete is called.\n");
+/* function to delete message */
+void Delete(){
     bzero(buf,BUFSIZE);
     strcpy(buf,"DELM");
     n = write(sockfd, buf, strlen(buf));
@@ -259,102 +265,129 @@ void Delete(/*arguments*/){
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s\n", buf);
 }
 
-void Send(/*arguments*/){
-    /*defination*/
-    if (strlen(arg4) <= 0);
-    else
-    {    
-        printf("Send is called.\n");
-        printf("subject: ");
-        bzero(subject, SUBJECTSIZE);
-        fgets(subject, SUBJECTSIZE, stdin);
-        printf("Type Message: ");
-        bzero(buf,BUFSIZE);
-        /*fgets(buf,BUFSIZE,stdin);*/
-        char rep = 'y';
-        while (rep == 'y')
-        {
-            int i=0;
-            fgets(buf2, BUFSIZE, stdin);            
-            while(buf2[i] != NULL)
-            {   
-                if (buf2[i] == '#')
-                {   if (buf2[i+1] == '#')
-                        if (buf2[i+2] == '#')
-                        {   
-                            rep = 'n';
-                            int j=i+3;
-                            while(buf2[j+1] != NULL)
-                            {
-                                buf2[j] = NULL;
-                                j++;
-                            }
-                            buf2[i+3] = '\n';
-                            break;
-                        }
-                }
-                i++;
-            }
-            strcat(buf,buf2);
-        }
-
-        n = write(sockfd, subject, strlen(subject));
-        if (n < 0) 
-        error("ERROR writing to socket");
-
-        bzero(subject, SUBJECTSIZE);
-        n = read(sockfd, subject, SUBJECTSIZE);
-        if (n < 0) 
-          error("ERROR reading from socket");
-        printf("Echo from server: %s", subject);
+/* function to send message to another available user */
+void Send(){
+    if(strlen(arg4) > 0)
+    {
 
         bzero(buf2, BUFSIZE);
         strcpy(buf2, "SEND ");
         strcat(buf2, arg4);
+        /* send username to server */
         n = write(sockfd, buf2, strlen(buf2));
         if (n < 0) 
         error("ERROR writing to socket");
-
-        bzero(buf2, BUFSIZE);
-        n = read(sockfd, buf2, BUFSIZE);
+        
+        char ACK[50];
+        bzero(ACK, 50);
+        /* receive inforfation, if username is available in server */
+        n = read(sockfd, ACK, 50);
         if (n < 0) 
           error("ERROR reading from socket");
-        /*printf("Echo from server: %s\n", buf2);*/
+        if (! strcmp(ACK, "INVALIDUSER"))
+        {   
+            printf("%s\n", ACK);
+            bzero(ACK, 20);
+            return;
+        }
+        else
+        {   /* take message subject and content from user */
+            printf("Subject: ");
+            bzero(subject, SUBJECTSIZE);
+            fgets(subject, SUBJECTSIZE, stdin);
+            bzero(buf, BUFSIZE);
+            n = write(sockfd, subject, strlen(subject));
+            if (n < 0) 
+              error("ERROR reading from socket");
 
-        n = write(sockfd, buf, strlen(buf));
-        if (n < 0) 
-        error("ERROR writing to socket");
-
-        bzero(buf, BUFSIZE);
-        n = read(sockfd, buf, BUFSIZE);
-        if (n < 0) 
-          error("ERROR reading from socket");
-        printf("Echo from server: %s", buf);
+            printf("Type Message: ");
+            bzero(buf,BUFSIZE);
+            char previous_line[BUFSIZE];
+            bzero(previous_line, BUFSIZE);
+            char rep = 'y';
+            /* input content continuously till ### is not entered or buffer get full */
+            int k = 0;
+            while (rep == 'y')
+            {
+                int i=0;
+                bzero(buf2,BUFSIZE);
+                fgets(buf2, BUFSIZE, stdin);            
+                while(buf2[i] != NULL)
+                {   
+                    if (buf2[i] == '#')
+                    {   if (buf2[i+1] == '#')
+                            if (buf2[i+2] == '#')
+                            {   
+                                rep = 'n';
+                                int j=i+3;
+                                while(buf2[j+1] != NULL)
+                                {
+                                    buf2[j] = NULL;
+                                    j++;
+                                }
+                                buf2[i+3] = '\n';
+                                break;
+                            }
+                    }
+                    i++;
+                    k++;
+                }
+                
+                /* if buffer is full then make last three character ### */
+                if(strlen(buf)+strlen(buf2)+strlen(subject) > BUFSIZE-4)
+                {   
+                    if ( previous_line[strlen(previous_line) - 1] == '\n')
+                        previous_line[strlen(previous_line) - 1] = NULL;
+                    printf("Buffer is full.\nSending message till\n\"%s\"\n", previous_line);
+                    buf[strlen(buf)] = '#';
+                    buf[strlen(buf)] = '#';
+                    buf[strlen(buf)] = '#';
+                    buf[strlen(buf)] = '\n';
+                    break;
+                }
+                else
+                {
+                    strcat(buf,buf2);
+                    bzero(previous_line, BUFSIZE);
+                    strcpy(previous_line, buf2);
+                }
+            }
+            /* write message to server */
+            bzero(buf2,BUFSIZE);
+            n = write(sockfd, buf, strlen(buf));
+            if (n < 0) 
+            error("ERROR writing to socket");
+            
+            /* server status about writing message */
+            bzero(buf, BUFSIZE);
+            n = read(sockfd, buf, BUFSIZE);
+            if (n < 0) 
+              error("ERROR reading from socket");
+            printf("%s\n", buf);
+        }
     }
+    else
+        printf("send username is empty\n");
 }
 
-void Done(/*arguments*/){
-    /*defination*/
-    printf("Done is called.\n");
+void Done(){
     bzero(buf,BUFSIZE);
     strcpy(buf,"DONEU");
     n = write(sockfd, buf, strlen(buf));
     if (n < 0) 
-    error("ERROR writing to socket");
+      error("ERROR writing to socket");
 
     bzero(buf, BUFSIZE);
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s\n", buf);
 }
 
-void Quit(/*arguments*/){
-    /*defination*/
-    printf("quit is called.\n");
+void Quit(){
     bzero(buf,BUFSIZE);
     strcpy(buf, "QUIT");
     n = write(sockfd, buf, strlen(buf));
@@ -365,7 +398,8 @@ void Quit(/*arguments*/){
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s\n", buf);
+    printf("%s\n", buf);
+    /* close socket */
     close(sockfd);
 }
 
@@ -375,115 +409,31 @@ void error(char *msg) {
 }
 
 int main(int argc, char **argv) {
-    /*int sockfd, portno, n;
-    struct sockaddr_in serveraddr;
-    struct hostent *server;
-    char *hostname;
-    char buf[BUFSIZE];
-    char buf2[BUFSIZE];*/
-    /*char buf3[BUFSIZE];*/
-
     /* check command line arguments */
-    if (argc != 3) {
-       fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
-       exit(0);
-    }
-    hostname = argv[1];
-    portno = atoi(argv[2]);
-
-    /* socket: create the socket */
-    /*sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) 
-        error("ERROR opening socket");*/
-
-    /* gethostbyname: get the server's DNS entry */
-    /*server = gethostbyname(hostname);
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host as %s\n", hostname);
-        exit(0);
-    }*/
-
-    /* build the server's Internet address */
-    /*bzero((char *) &serveraddr, sizeof(serveraddr));
-    serveraddr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr_list[0], 
-      (char *)&serveraddr.sin_addr.s_addr, server->h_length);
-    serveraddr.sin_port = htons(portno);*/
-
-    /* connect: create a connection with the server */
-    /*if (connect(sockfd, &serveraddr, sizeof(serveraddr)) < 0) 
-      error("ERROR connecting");*/
-
-    input_interface();
-
-    /*printf("Main-Prompt > ");
-    bzero(buf, BUFSIZE);
-    bzero(buf2, BUFSIZE);*/
-    /*bzero(buf3, BUFSIZE);*/
-    /* get message line from the user */
-    /*fgets(buf3, BUFSIZE, stdin);*/
-    /*printf("Main-Prompt > ");*/
-    /*char rep = 'y';
-    while (rep == 'y')
-    {
-        int i=0;
-        fgets(buf2, BUFSIZE, stdin);            
-        while(buf2[i] != NULL)
-        {   
-            if (buf2[i] == '#')
-            {   if (buf2[i+1] == '#')
-                    if (buf2[i+2] == '#')
-                    {   
-                        rep = 'n';
-                        int j=i+3;
-                        while(buf2[j+1] != NULL)
-                        {
-                            buf2[j] = NULL;
-                            j++;
-                        }
-                        buf2[i+3] = '\n';
-                        break;
-                    }
-            }
-            i++;
+    switch(argc){
+        case 1: /*strcpy(hostname,"127.0.0.1");*/
+                hostname = "127.0.0.1";
+                portno = 4567;
+                printf("Client running on localhost:4567 by default\n");
+                break;
+        case 2: hostname = "127.0.0.1";
+                portno = atoi(argv[1]);
+                printf("Client running of localhost by default.\n");
+                break;
+        case 3: /* if localhost is typed then changing it to ip address */
+                if(!(strcmp(argv[1],"localhost")))
+                    hostname = "127.0.0.1";
+                else
+                    hostname = argv[1];
+                portno = atoi(argv[2]);
+                break;
+        default:if (argc != 3) {
+                fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
+                exit(0);
         }
-        strcat(buf,buf2);
-    }*/
-    /* send the message line to the server */
-    /*n = write(sockfd, buf, strlen(buf));
-    if (n < 0) 
-      error("ERROR writing to socket");
-    char *arg1, *arg2, *arg3;
-    char *cmd = strtok(buf," ");
-    int i=0;*/
-    /*printf("Received:");*/
-    /*while (cmd != NULL){
-        printf(" %s", cmd );
-        if(i == 0)
-            arg1 = cmd;
-        else if(i == 1)
-            arg2 = cmd;
-        else if(i == 2)
-            arg3 = cmd;
-        cmd = strtok(NULL, " ");
-        i++;
     }
-    printf("arg1 : %s,  arg2 : %s,  arg3 : %s \n",arg1,arg2,arg3);*/
-    /*i = 0;
-    int operatorlen = strlen(operator);*/
-    /*convert operator string to lowercase, so that operater is no longer case sensitive*/
-    /*while (i< operatorlen){
-        if(operator[i] >= 65 && operator[i]<=90)
-            operator[i] = operator[i] + 32;
-        i++;
-    }*/
-
-    /* print the server's reply */
-    /*bzero(buf, BUFSIZE);
-    n = read(sockfd, buf, BUFSIZE);
-    if (n < 0) 
-      error("ERROR reading from socket");
-    printf("Echo from server: %s", buf);*/
-    /*close(sockfd);*/
+    
+    /* calling interface function */
+    client_interface();
     return 0;
 }

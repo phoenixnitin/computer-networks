@@ -1,0 +1,17 @@
+Program can be compiled using makefile.
+$ make
+
+Following parameters could be used (in any order):
+	-N for no. of nodes (default : 2)
+	-M for max packets (default : 10)
+	-PR for packet genration rate (default : 1000)(lines for this are commented in the submitted code)
+	-W for window size (default : 2)
+	-L for packet length (default : 10)
+	-P for packet generation probability (default : 0.5)
+	-d for debug mode (default : false)
+
+Shell script could be executed using following command:
+$ ./SlottedAloha.sh
+
+UNIX Script file has recorded, and could replayed using:
+$ scriptreplay --timing=SlottedAloha.txt SlottedAloha.log
