@@ -1,0 +1,84 @@
+Script started on Sat 08 Apr 2017 23:38:29 IST
+]0;bigen@firestorm: ~/Documents/computer-networks/LAB9bigen@firestorm:~/Documents/computer-networks/LAB9$ make
+javac -g cw.java
+]0;bigen@firestorm: ~/Documents/computer-networks/LAB9bigen@firestorm:~/Documents/computer-networks/LAB9$ ./cw.sh out
+Output has been saved to 'out/out1 1 1 0.5 0.1 0.99'
+Output has been saved to 'out/out2 1 1 0.5 0.1 0.9999'
+Output has been saved to 'out/out3 1 1 0.5 0.3 0.99'
+Output has been saved to 'out/out4 1 1 0.5 0.3 0.9999'
+Output has been saved to 'out/out5 1 1 1 0.1 0.99'
+Output has been saved to 'out/out6 1 1 1 0.1 0.9999'
+Output has been saved to 'out/out7 1 1 1 0.3 0.99'
+Output has been saved to 'out/out8 1 1 1 0.3 0.9999'
+Output has been saved to 'out/out9 1 1.5 0.5 0.1 0.99'
+Output has been saved to 'out/out10 1 1.5 0.5 0.1 0.9999'
+Output has been saved to 'out/out11 1 1.5 0.5 0.3 0.99'
+Output has been saved to 'out/out12 1 1.5 0.5 0.3 0.9999'
+Output has been saved to 'out/out13 1 1.5 1 0.1 0.99'
+Output has been saved to 'out/out14 1 1.5 1 0.1 0.9999'
+Output has been saved to 'out/out15 1 1.5 1 0.3 0.99'
+Output has been saved to 'out/out16 1 1.5 1 0.3 0.9999'
+Output has been saved to 'out/out17 4 1 0.5 0.1 0.99'
+Output has been saved to 'out/out18 4 1 0.5 0.1 0.9999'
+Output has been saved to 'out/out19 4 1 0.5 0.3 0.99'
+Output has been saved to 'out/out20 4 1 0.5 0.3 0.9999'
+Output has been saved to 'out/out21 4 1 1 0.1 0.99'
+Output has been saved to 'out/out22 4 1 1 0.1 0.9999'
+Output has been saved to 'out/out23 4 1 1 0.3 0.99'
+Output has been saved to 'out/out24 4 1 1 0.3 0.9999'
+Output has been saved to 'out/out25 4 1.5 0.5 0.1 0.99'
+Output has been saved to 'out/out26 4 1.5 0.5 0.1 0.9999'
+Output has been saved to 'out/out27 4 1.5 0.5 0.3 0.99'
+Output has been saved to 'out/out28 4 1.5 0.5 0.3 0.9999'
+Output has been saved to 'out/out29 4 1.5 1 0.1 0.99'
+Output has been saved to 'out/out30 4 1.5 1 0.1 0.9999'
+Output has been saved to 'out/out31 4 1.5 1 0.3 0.99'
+Output has been saved to 'out/out32 4 1.5 1 0.3 0.9999'
+]0;bigen@firestorm: ~/Documents/computer-networks/LAB9bigen@firestorm:~/Documents/computer-networks/LAB9$ python graph.py out
+out13 1 1.5 1 0.1 0.99
+out9 1 1.5 0.5 0.1 0.99
+out16 1 1.5 1 0.3 0.9999
+out19 4 1 0.5 0.3 0.99
+out12 1 1.5 0.5 0.3 0.9999
+out30 4 1.5 1 0.1 0.9999
+out29 4 1.5 1 0.1 0.99
+out7 1 1 1 0.3 0.99
+out14 1 1.5 1 0.1 0.9999
+out28 4 1.5 0.5 0.3 0.9999
+out22 4 1 1 0.1 0.9999
+out6 1 1 1 0.1 0.9999
+out26 4 1.5 0.5 0.1 0.9999
+out25 4 1.5 0.5 0.1 0.99
+out27 4 1.5 0.5 0.3 0.99
+out10 1 1.5 0.5 0.1 0.9999
+out2 1 1 0.5 0.1 0.9999
+out20 4 1 0.5 0.3 0.9999
+out3 1 1 0.5 0.3 0.99
+out23 4 1 1 0.3 0.99
+out32 4 1.5 1 0.3 0.9999
+out24 4 1 1 0.3 0.9999
+out8 1 1 1 0.3 0.9999
+out11 1 1.5 0.5 0.3 0.99
+out17 4 1 0.5 0.1 0.99
+out4 1 1 0.5 0.3 0.9999
+out5 1 1 1 0.1 0.99
+out18 4 1 0.5 0.1 0.9999
+out1 1 1 0.5 0.1 0.99
+out21 4 1 1 0.1 0.99
+out15 1 1.5 1 0.3 0.99
+Traceback (most recent call last):
+  File "graph.py", line 19, in <module>
+    plt.show()
+  File "/usr/lib/pymodules/python2.7/matplotlib/pyplot.py", line 145, in show
+    _show(*args, **kw)
+  File "/usr/lib/pymodules/python2.7/matplotlib/backend_bases.py", line 117, in __call__
+    self.mainloop()
+  File "/usr/lib/pymodules/python2.7/matplotlib/backends/backend_tkagg.py", line 69, in mainloop
+    Tk.mainloop()
+  File "/usr/lib/python2.7/lib-tk/Tkinter.py", line 366, in mainloop
+    _default_root.tk.mainloop(n)
+AttributeError: 'NoneType' object has no attribute 'tk'
+]0;bigen@firestorm: ~/Documents/computer-networks/LAB9bigen@firestorm:~/Documents/computer-networks/LAB9$ exit
+exit
+
+Script done on Sat 08 Apr 2017 23:39:33 IST

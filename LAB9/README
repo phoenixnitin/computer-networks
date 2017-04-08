@@ -1,0 +1,15 @@
+Java file can be compiled by using Makefile
+$ make
+
+These parameters could be used for running the compiled program
+		-i is for Ki (Default : 1.0)
+		-m is for Km (Default : 1.0)
+		-n is for Kn (Default : 1.0)
+		-f is for Kf (Default : 0.1)
+		-s is for Ps (Default : 1.0)
+		-T is for max packets (Default : 1000)
+		-o is for output file (Default : output)
+
+Shell script can be used to run the program for given 32 different cases 
+
+Python file could be generate to generate those graphs.
