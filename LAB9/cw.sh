@@ -1,5 +1,11 @@
 ((num=0));
-mkdir $1;
+if [ ! -d "$1" ];
+	then mkdir $1;
+	echo "$1 created";
+else
+	echo "$1 exists";
+fi
+
 for Ki in 1 4
 do
 	for Km in 1 1.5
@@ -17,3 +23,5 @@ do
     	done
     done	
 done
+
+python graph.py $1;

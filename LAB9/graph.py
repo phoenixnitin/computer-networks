@@ -2,11 +2,17 @@ import glob, os, sys
 import matplotlib.pyplot as plt
 
 folder = sys.argv[1]
+imagepath = "graphs"
+try:
+	os.stat("graphs")
+except:
+	os.mkdir("graphs")
 os.chdir(folder)
-
+respath = "../"+folder
 i = 0
 for file in glob.glob("*"):
-	print(file)
+	filename = file+".png"
+	print(filename)
 	X, Y = [], []
 	plt.close("all")
 	for line in open(file, 'r'):
@@ -18,5 +24,8 @@ for file in glob.glob("*"):
 	plt.ylabel('Congestion Window')
 	plt.xlabel('Packet')
 	plt.plot(X, Y)
-	plt.show()
+	os.chdir("../graphs")
+	plt.savefig(filename)
+	#plt.show()
 	plt.close(fig)
+	os.chdir(respath)
